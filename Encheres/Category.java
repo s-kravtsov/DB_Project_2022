@@ -1,6 +1,11 @@
-public class Category extends DatabaseObject<Category> {
+import java.util.ArrayList;
+import java.sql.*;
+
+public class Category {
   int category_code;
   String category_name;
+
+  public static DatabaseConnection connection = DatabaseConnection.getInstance();
 
   public Category(int _category_code, String _category_name) {
     category_code = _category_code;
@@ -9,9 +14,9 @@ public class Category extends DatabaseObject<Category> {
 
   public static ArrayList<Category> fetch() {
 		ArrayList<Category> categories = new ArrayList<Category>();
-		connection.openConnection();
-		ResultSet fetched_lines = connection.executeQuery("SELECT * FROM Category;");
-		connection.closeConnection();
+		Category.connection.openConnection();
+		ResultSet fetched_lines = Category.connection.executeQuery("SELECT * FROM Category;");
+		Category.connection.closeConnection();
 		while(fetched_lines.next()) {
       categories.add(new Category(fetched_lines.getInt("category_code"), fetched_lines.getString("category_name")));
 		}
@@ -20,9 +25,9 @@ public class Category extends DatabaseObject<Category> {
 
   public static ArrayList<Category> fetch(String condition) {
     ArrayList<Category> categories = new ArrayList<Category>();
-		connection.openConnection();
-		ResultSet fetched_lines = connection.executeQuery("SELECT * FROM Category WHERE " + condition + ";");
-		connection.closeConnection();
+		Category.connection.openConnection();
+		ResultSet fetched_lines = Category.connection.executeQuery("SELECT * FROM Category WHERE " + condition + ";");
+		Category.connection.closeConnection();
 		while(fetched_lines.next()) {
       categories.add(new Category(fetched_lines.getInt("category_code"), fetched_lines.getString("category_name")));
 		}
@@ -30,13 +35,13 @@ public class Category extends DatabaseObject<Category> {
 	}
 
   public void save() {
-		connection.openConnection();
+		Category.connection.openConnection();
 		if(Category.fetch("category_code = " + this.category_code).size() == 0) {
-			this.connection.executeUpdate("INSERT INTO Category VALUES (" + this.category_code + ", " + this.category_name + ");");
+			Category.connection.executeUpdate("INSERT INTO Category VALUES (" + this.category_code + ", " + this.category_name + ");");
 		} else {
-			connection.executeUpdate("UPDATE Category SET category_code = " + this.category_code + ", category_name = " + this.category_name + " WHERE category_code = " + this.category_code + ";");
+			Category.connection.executeUpdate("UPDATE Category SET category_code = " + this.category_code + ", category_name = " + this.category_name + " WHERE category_code = " + this.category_code + ";");
 		}
-		connection.closeConnection();
+		Category.connection.closeConnection();
 	}
 
   public int getCode() {

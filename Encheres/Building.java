@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+import java.sql.*;
 /*
 Building represente le site des enchères. Il contient des Salles dans lequels on peut "entrer" pour
 enchèrir sur les differents types des produits.

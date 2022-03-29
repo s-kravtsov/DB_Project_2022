@@ -1,4 +1,5 @@
 import java.sql.*;
+import java.util.ArrayList;
 
 public class DatabaseConnection {
   private static DatabaseConnection instance;
@@ -17,26 +18,46 @@ public class DatabaseConnection {
   String password;
 
   public DatabaseConnection() {
-    url = "jdbc:postgresql://127.0.0.1:5740/encheres";
-    username = "postgres";
-    password = "postgres";
+    url = "jdbc:oracle:thin//195.221.228.253:1521/oracle1";
+    username = "kravtsos";
+    password = "kravtsos";
   }
 
   public void openConnection() {
-    this.connection = DriverManager.getConnection(this.url, this.username, this.password);
-    Statement statement = this.connection.createStatement();
+    try {
+      this.connection = DriverManager.getConnection(this.url, this.username, this.password);
+      Statement statement = this.connection.createStatement();
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+
   }
 
   public ResultSet executeQuery(String query) {
-    return statement.executeQuery(query);
+    try {
+      return statement.executeQuery(query);
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+    return null;
   }
 
   public void executeUpdate(String query) {
-    statement.executeUpdate(query);
+    try {
+      statement.executeUpdate(query);
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+
   }
 
   public void closeConnection() {
-    this.connection.close();
+    try {
+      this.connection.close();
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+
   }
 
 }

@@ -1,3 +1,5 @@
+import java.time.*;
+
 public class TimeSpan {
   Duration time_span;
 
@@ -8,7 +10,11 @@ public class TimeSpan {
     time_span = Duration.between(start, end);
   }
 
+  public TimeSpan(Duration duration) {
+    time_span = duration;
+  }
+
   public long inMinutes() {
-    return this.time_span.getMinutes();
+    return this.time_span.toMinutes();
   }
 }

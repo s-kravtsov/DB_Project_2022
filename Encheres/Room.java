@@ -1,9 +1,15 @@
+import java.util.ArrayList;
+import java.sql.*;
+
 /*
 Room representeune salle de vente où on peut enchèrir sur les produits d'une certaine categorie.
 */
-public class Room extends DatabaseObject<Room> {
+public class Room {
 	int room_code;
 	Category category;
+
+	public static DatabaseConnection connection = DatabaseConnection.getInstance();
+
 
 	// Le constructeur privé
 	private Room(int _room_code, Category _category) {
@@ -14,34 +20,34 @@ public class Room extends DatabaseObject<Room> {
 
 	public static ArrayList<Room> fetch() {
 		ArrayList<Room> rooms = new ArrayList<Room>();
-		connection.openConnection();
-		ResultSet fetched_lines = connection.executeQuery("SELECT * FROM Room;");
-		connection.closeConnection();
+		Room.connection.openConnection();
+		ResultSet fetched_lines = Room.connection.executeQuery("SELECT * FROM Room;");
+		Room.connection.closeConnection();
 		while(fetched_lines.next()) {
-			rooms.add(new Room(fetched_lines.getInt("room_code"), Category.fetch(fetched_lines.getInt("category_code"))));
+			rooms.add(new Room(fetched_lines.getInt("room_code"), Category.fetch("category_code = " + fetched_lines.getInt("category_code")).get(0)));
 		}
 		return rooms;
 	}
 
   public static ArrayList<Room> fetch(String condition) {
 		ArrayList<Room> rooms = new ArrayList<Room>();
-		connection.openConnection();
-		ResultSet fetched_lines = connection.executeQuery("SELECT * FROM Room WHERE " + condition + ";");
-		connection.closeConnection();
+		Room.connection.openConnection();
+		ResultSet fetched_lines = Room.connection.executeQuery("SELECT * FROM Room WHERE " + condition + ";");
+		Room.connection.closeConnection();
 		while(fetched_lines.next()) {
-			rooms.add(new Room(fetched_lines.getInt("room_code"), Category.fetch(fetched_lines.getInt("category_code"))));
+			rooms.add(new Room(fetched_lines.getInt("room_code"), Category.fetch("category_code = " + fetched_lines.getInt("category_code")).get(0)));
 		}
 		return rooms;
 	}
 
   public void save() {
-		connection.openConnection();
+		Room.connection.openConnection();
 		if(Room.fetch("room_code = " + this.room_code).size() == 0) {
-			this.connection.executeUpdate("INSERT INTO Room VALUES (" + this.room_code + ", " + this.category.getCode() + ");");
+			Room.connection.executeUpdate("INSERT INTO Room VALUES (" + this.room_code + ", " + this.category.getCode() + ");");
 		} else {
-			connection.executeUpdate("UPDATE Room SET room_code = " + this.room_code + ", category_code = " + this.category.getCode() + " WHERE room_code = " + this.room_code + ";");
+			Room.connection.executeUpdate("UPDATE Room SET room_code = " + this.room_code + ", category_code = " + this.category.getCode() + " WHERE room_code = " + this.room_code + ";");
 		}
-		connection.closeConnection();
+		Room.connection.closeConnection();
 	}
 
 	public int getCode() {
@@ -54,7 +60,7 @@ public class Room extends DatabaseObject<Room> {
 
 	public void enter(BaseUser user) {
 		ArrayList<Sale> sales = Sale.fetch("room_code = " + this.room_code);
-		System.out.println("Bienvenue dans la salle \"" + this.show() "\"");
+		System.out.println("Bienvenue dans la salle \"" + this.show() + "\"");
 		System.out.println("Voici les ventes en cours :");
 		for(Sale sale : sales) {
 			System.out.println(sale.show());
@@ -67,7 +73,7 @@ public class Room extends DatabaseObject<Room> {
     }
 
 		for(Sale sale : sales) {
-			if(sale.getId() == Integer.parseInt(user_choice)) {
+			if(sale.getCode() == Integer.parseInt(user_choice)) {
 				user.bid(sale);
 			}
 		}

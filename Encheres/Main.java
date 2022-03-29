@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+import java.sql.*;
 /*
 La classe principale pour entrer dans le programme.
 */
