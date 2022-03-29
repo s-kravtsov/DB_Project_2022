@@ -1,12 +1,12 @@
-class BaseUser {
+class BaseUser extends DatabaseObject<BaseUser> {
   int user_code;
   String email;
   String first_name;
   String last_name;
-  Country country;
-  City city;
+  String address;
 
-  public BaseUser(int _user_code, String _email, String _first_name, String _last_name, Country _country, City _city ) {
+
+  public BaseUser(int _user_code, String _email, String _first_name, String _last_name, String _address ) {
     user_code = _user_code;
     email = _email;
     first_name = _first_name;
@@ -15,48 +15,82 @@ class BaseUser {
     city = _city;
   }
 
+  public static ArrayList<BaseUser> fetch() {
+		ArrayList<BaseUser> users = new ArrayList<BaseUser>();
+		connection.openConnection();
+		ResultSet fetched_lines = connection.executeQuery("SELECT * FROM BaseUser;");
+		connection.closeConnection();
+		while(fetched_lines.next()) {
+			users.add(new BaseUser(fetched_lines.getInt("user_code"), fetched_lines.getString("email"), fetched_lines.getString("first_name"), fetched_lines.getString("last_name"), fetched_lines.getString("address")));
+		}
+		return users;
+	}
 
-  public Bid makeBid(Lot lot) {
-    lot.print();
+  public static ArrayList<BaseUser> fetch(String condition) {
+    ArrayList<BaseUser> users = new ArrayList<BaseUser>();
+		connection.openConnection();
+		ResultSet fetched_lines = connection.executeQuery("SELECT * FROM BaseUser WHERE " + condition + ";");
+		connection.closeConnection();
+		while(fetched_lines.next()) {
+			users.add(new BaseUser(fetched_lines.getInt("user_code"), fetched_lines.getString("email"), fetched_lines.getString("first_name"), fetched_lines.getString("last_name"), fetched_lines.getString("address")));
+		}
+		return users;
+	}
 
-    System.out.println("Which lines do you want to bid on ? (enter separated by commas) : ");
-    int[] bid_lines = parseToIntArray(System.console().readLine());
+  public void save() {
+		connection.openConnection();
+		if(BaseUser.fetch("user_code = " + this.user_code).size() == 0) {
+			this.connection.executeUpdate("INSERT INTO BaseUser VALUES (" + this.user_code + ", " + this.email + ", " + this.first_name + ", " + this.last_name + ", " + this.address + ");");
+		} else {
+			connection.executeUpdate("UPDATE BaseUser SET user_code = " + this.user_code + ", email = " + this.email + ", first_name = " + this.first_name + ", last_name = " + this.last_name + ", address = " + this.address + " WHERE room_code = " + this.user_code + ";");
+		}
+		connection.closeConnection();
+	}
 
-    int[] bid_quantities;
-    for (int bid_line : bid_lines) {
-      System.out.println("How many units of product " + bid_line + " do you waht to buy ? : ");
-      bid_quantities.add(Integer.parseInt(System.console().readLine()));
-    }
-
-    System.out.println("How much do you want to bid ? : ");
-    float bid_amount = Float.parseFloat(System.console().readLine());
-
-    Bid res_bid = new Bid(lot, bid_lines, bid_quantities, bid_amount);
-
-    return res_bid;
+  public int getCode() {
+    return user_code;
   }
 
-  int[] parseToIntArray(String s) {
+  public String show() {
+    return this.user_code + ". " + this.first_name + " " + this.last_name;
+  }
 
-    int[] res;
+  public static BaseUser identify() {
 
-    String caught_number;
+    ArrayList<BaseUser> users = BaseUser.fetch();
+    System.out.println("Vous êtes : ");
+    for(BaseUser user : users) {
+      user.show();
+    }
 
-    for (int i = 0; i < s.length(); i++) {
-      caught_number = "";
-      for (int j = 0; j < s.length() - i; j++) {
-        if (s[j] >= 48 && s[j] <= 57) {
-          caught_number += s[j];
-        } else if (s[j] == ',' || i + j == s.length()) {
-          res.add(Integer.parseInt(caught_number));
-          i = j + 1;
-          break;
-        } else {
-          continue;
-        }
+    String user_choice = System.console().readLine();
+
+    for(BaseUser user : users) {
+      if(user.getCode() == Integer.parseInt(user_choice)) {
+        return user;
       }
     }
 
-    return res;
   }
+
+  public int getCode() {
+    return user_code;
+  }
+
+  public String show() {
+    return this.user_code + ". " + this.first_name + " " + this.last_name;
+  }
+
+  public void bid(Sale sale) {
+    System.out.println("Combien voulez-vous encherir : ");
+    String user_choice = System.console().readLine();
+    Float amount = Float.parseFloat(user_choice);
+    boolean accepted = sale.placeNewBid(sale.getCode(), this, amount);
+    if(accepted) {
+      System.out.println("Votre enchère est prise en compte.");
+    } else {
+      System.out.println("Votre enchère n'est pas valide. Ressayez.")
+    }
+  }
+
 }
