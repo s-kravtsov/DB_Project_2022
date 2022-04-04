@@ -20,23 +20,33 @@ public class Room {
 
 	public static ArrayList<Room> fetch() {
 		ArrayList<Room> rooms = new ArrayList<Room>();
-		Room.connection.openConnection();
-		ResultSet fetched_lines = Room.connection.executeQuery("SELECT * FROM Room;");
-		Room.connection.closeConnection();
-		while(fetched_lines.next()) {
-			rooms.add(new Room(fetched_lines.getInt("room_code"), Category.fetch("category_code = " + fetched_lines.getInt("category_code")).get(0)));
-		}
+		try {
+			Room.connection.openConnection();
+			ResultSet fetched_lines = Room.connection.executeQuery("SELECT * FROM Room;");
+			Room.connection.closeConnection();
+			while(fetched_lines.next()) {
+				rooms.add(new Room(fetched_lines.getInt("room_code"), Category.fetch("category_code = " + fetched_lines.getInt("category_code")).get(0)));
+			}
+		} catch (SQLException e) {
+      e.printStackTrace();
+    }
+
 		return rooms;
 	}
 
   public static ArrayList<Room> fetch(String condition) {
 		ArrayList<Room> rooms = new ArrayList<Room>();
-		Room.connection.openConnection();
-		ResultSet fetched_lines = Room.connection.executeQuery("SELECT * FROM Room WHERE " + condition + ";");
-		Room.connection.closeConnection();
-		while(fetched_lines.next()) {
-			rooms.add(new Room(fetched_lines.getInt("room_code"), Category.fetch("category_code = " + fetched_lines.getInt("category_code")).get(0)));
-		}
+		try {
+			Room.connection.openConnection();
+			ResultSet fetched_lines = Room.connection.executeQuery("SELECT * FROM Room WHERE " + condition + ";");
+			Room.connection.closeConnection();
+			while(fetched_lines.next()) {
+				rooms.add(new Room(fetched_lines.getInt("room_code"), Category.fetch("category_code = " + fetched_lines.getInt("category_code")).get(0)));
+			}
+		} catch (SQLException e) {
+      e.printStackTrace();
+    }
+
 		return rooms;
 	}
 

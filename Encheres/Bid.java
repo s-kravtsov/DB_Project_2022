@@ -14,12 +14,18 @@ public class Bid {
 
   public Bid(int sale_code, BaseUser _user, float _amount) {
     int new_code = 0;
-    Bid.connection.openConnection();
-		ResultSet fetched_lines = Bid.connection.executeQuery("SELECT MAX(bid_code) as max_code FROM Bid;");
-		Bid.connection.closeConnection();
+    try {
+      Bid.connection.openConnection();
+  		ResultSet fetched_lines = Bid.connection.executeQuery("SELECT MAX(bid_code) as max_code FROM Bid;");
+  		Bid.connection.closeConnection();
+
+
 		while(fetched_lines.next()) {
       new_code = fetched_lines.getInt("max_code");
 		}
+  } catch (SQLException e) {
+    e.printStackTrace();
+  }
     user = _user;
     accepted = false;
     amount = _amount;
@@ -36,23 +42,33 @@ public class Bid {
 
   public static ArrayList<Bid> fetch() {
 		ArrayList<Bid> bids = new ArrayList<Bid>();
-		Bid.connection.openConnection();
-		ResultSet fetched_lines = Bid.connection.executeQuery("SELECT * FROM Bid;");
-		Bid.connection.closeConnection();
-		while(fetched_lines.next()) {
-      bids.add(new Bid(fetched_lines.getInt("bid_code"), fetched_lines.getInt("sale_code"), BaseUser.fetch("user_code = " + fetched_lines.getString("user_code")).get(0), fetched_lines.getBoolean("accepted"), fetched_lines.getFloat("amount"), new TimePoint(fetched_lines.getString("tstamp"))));
-		}
+    try {
+      Bid.connection.openConnection();
+  		ResultSet fetched_lines = Bid.connection.executeQuery("SELECT * FROM Bid;");
+  		Bid.connection.closeConnection();
+  		while(fetched_lines.next()) {
+        bids.add(new Bid(fetched_lines.getInt("bid_code"), fetched_lines.getInt("sale_code"), BaseUser.fetch("user_code = " + fetched_lines.getString("user_code")).get(0), fetched_lines.getBoolean("accepted"), fetched_lines.getFloat("amount"), new TimePoint(fetched_lines.getString("tstamp"))));
+  		}
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+
 		return bids;
 	}
 
   public static ArrayList<Bid> fetch(String condition) {
     ArrayList<Bid> bids = new ArrayList<Bid>();
-		Bid.connection.openConnection();
-		ResultSet fetched_lines = Bid.connection.executeQuery("SELECT * FROM Bid WHERE " + condition + ";");
-		Bid.connection.closeConnection();
-		while(fetched_lines.next()) {
-      bids.add(new Bid(fetched_lines.getInt("bid_code"), fetched_lines.getInt("sale_code"), BaseUser.fetch("user_code = " + fetched_lines.getString("user_code")).get(0), fetched_lines.getBoolean("accepted"), fetched_lines.getFloat("amount"), new TimePoint(fetched_lines.getString("tstamp"))));
-		}
+    try {
+      Bid.connection.openConnection();
+  		ResultSet fetched_lines = Bid.connection.executeQuery("SELECT * FROM Bid WHERE " + condition + ";");
+  		Bid.connection.closeConnection();
+  		while(fetched_lines.next()) {
+        bids.add(new Bid(fetched_lines.getInt("bid_code"), fetched_lines.getInt("sale_code"), BaseUser.fetch("user_code = " + fetched_lines.getString("user_code")).get(0), fetched_lines.getBoolean("accepted"), fetched_lines.getFloat("amount"), new TimePoint(fetched_lines.getString("tstamp"))));
+  		}
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+
 		return bids;
 	}
 

@@ -14,23 +14,33 @@ public class Category {
 
   public static ArrayList<Category> fetch() {
 		ArrayList<Category> categories = new ArrayList<Category>();
-		Category.connection.openConnection();
-		ResultSet fetched_lines = Category.connection.executeQuery("SELECT * FROM Category;");
-		Category.connection.closeConnection();
-		while(fetched_lines.next()) {
-      categories.add(new Category(fetched_lines.getInt("category_code"), fetched_lines.getString("category_name")));
-		}
+    try {
+      Category.connection.openConnection();
+  		ResultSet fetched_lines = Category.connection.executeQuery("SELECT * FROM Category;");
+  		Category.connection.closeConnection();
+  		while(fetched_lines.next()) {
+        categories.add(new Category(fetched_lines.getInt("category_code"), fetched_lines.getString("category_name")));
+  		}
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+
 		return categories;
 	}
 
   public static ArrayList<Category> fetch(String condition) {
     ArrayList<Category> categories = new ArrayList<Category>();
-		Category.connection.openConnection();
-		ResultSet fetched_lines = Category.connection.executeQuery("SELECT * FROM Category WHERE " + condition + ";");
-		Category.connection.closeConnection();
-		while(fetched_lines.next()) {
-      categories.add(new Category(fetched_lines.getInt("category_code"), fetched_lines.getString("category_name")));
-		}
+    try {
+      Category.connection.openConnection();
+  		ResultSet fetched_lines = Category.connection.executeQuery("SELECT * FROM Category WHERE " + condition + ";");
+  		Category.connection.closeConnection();
+  		while(fetched_lines.next()) {
+        categories.add(new Category(fetched_lines.getInt("category_code"), fetched_lines.getString("category_name")));
+  		}
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+
 		return categories;
 	}
 

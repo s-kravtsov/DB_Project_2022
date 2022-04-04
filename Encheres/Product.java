@@ -19,23 +19,33 @@ public class Product {
 
   public static ArrayList<Product> fetch() {
 		ArrayList<Product> products = new ArrayList<Product>();
-		Product.connection.openConnection();
-		ResultSet fetched_lines = Product.connection.executeQuery("SELECT * FROM Product;");
-		Product.connection.closeConnection();
-		while(fetched_lines.next()) {
-      products.add(new Product(fetched_lines.getInt("product_code"), fetched_lines.getString("product_name"), fetched_lines.getFloat("product_cost"), Category.fetch("category_code = " + fetched_lines.getInt("category_code")).get(0)));
-		}
+    try {
+      Product.connection.openConnection();
+  		ResultSet fetched_lines = Product.connection.executeQuery("SELECT * FROM Product;");
+  		Product.connection.closeConnection();
+  		while(fetched_lines.next()) {
+        products.add(new Product(fetched_lines.getInt("product_code"), fetched_lines.getString("product_name"), fetched_lines.getFloat("product_cost"), Category.fetch("category_code = " + fetched_lines.getInt("category_code")).get(0)));
+  		}
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+
 		return products;
 	}
 
   public static ArrayList<Product> fetch(String condition) {
     ArrayList<Product> products = new ArrayList<Product>();
-		Product.connection.openConnection();
-		ResultSet fetched_lines = Product.connection.executeQuery("SELECT * FROM Product WHERE " + condition + ";");
-		Product.connection.closeConnection();
-		while(fetched_lines.next()) {
-      products.add(new Product(fetched_lines.getInt("product_code"), fetched_lines.getString("product_name"), fetched_lines.getFloat("product_cost"), Category.fetch("category_code = " + fetched_lines.getInt("category_code")).get(0)));
-		}
+    try {
+      Product.connection.openConnection();
+  		ResultSet fetched_lines = Product.connection.executeQuery("SELECT * FROM Product WHERE " + condition + ";");
+  		Product.connection.closeConnection();
+  		while(fetched_lines.next()) {
+        products.add(new Product(fetched_lines.getInt("product_code"), fetched_lines.getString("product_name"), fetched_lines.getFloat("product_cost"), Category.fetch("category_code = " + fetched_lines.getInt("category_code")).get(0)));
+  		}
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+
 		return products;
 	}
 

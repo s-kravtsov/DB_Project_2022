@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.sql.*;
+import oracle.jdbc.*;
 /*
 La classe principale pour entrer dans le programme.
 */

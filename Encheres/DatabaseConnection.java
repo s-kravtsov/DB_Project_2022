@@ -1,5 +1,6 @@
 import java.sql.*;
 import java.util.ArrayList;
+import oracle.jdbc.*;
 
 public class DatabaseConnection {
   private static DatabaseConnection instance;
@@ -21,6 +22,18 @@ public class DatabaseConnection {
     url = "jdbc:oracle:thin//195.221.228.253:1521/oracle1";
     username = "kravtsos";
     password = "kravtsos";
+    try {
+      Class.forName("oracle.jdbc.OracleDriver");
+    } catch (ClassNotFoundException e) {
+
+    }
+    try {
+      DriverManager.registerDriver(new oracle.jdbc.OracleDriver());
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+
+
   }
 
   public void openConnection() {
