@@ -21,7 +21,7 @@ public class Product {
 		ArrayList<Product> products = new ArrayList<Product>();
     try {
       Product.connection.openConnection();
-  		ResultSet fetched_lines = Product.connection.executeQuery("SELECT * FROM Product;");
+  		ResultSet fetched_lines = Product.connection.executeQuery("SELECT * FROM Product");
   		Product.connection.closeConnection();
   		while(fetched_lines.next()) {
         products.add(new Product(fetched_lines.getInt("product_code"), fetched_lines.getString("product_name"), fetched_lines.getFloat("product_cost"), Category.fetch("category_code = " + fetched_lines.getInt("category_code")).get(0)));
@@ -37,7 +37,7 @@ public class Product {
     ArrayList<Product> products = new ArrayList<Product>();
     try {
       Product.connection.openConnection();
-  		ResultSet fetched_lines = Product.connection.executeQuery("SELECT * FROM Product WHERE " + condition + ";");
+  		ResultSet fetched_lines = Product.connection.executeQuery("SELECT * FROM Product WHERE " + condition + "");
   		Product.connection.closeConnection();
   		while(fetched_lines.next()) {
         products.add(new Product(fetched_lines.getInt("product_code"), fetched_lines.getString("product_name"), fetched_lines.getFloat("product_cost"), Category.fetch("category_code = " + fetched_lines.getInt("category_code")).get(0)));
@@ -52,9 +52,9 @@ public class Product {
   public void save() {
 		Product.connection.openConnection();
 		if(Product.fetch("product_code = " + this.product_code).size() == 0) {
-			Product.connection.executeUpdate("INSERT INTO Product VALUES (" + this.product_code + ", " + this.product_name + ", " + this.product_cost + ", " + this.category.getCode() + ");");
+			Product.connection.executeUpdate("INSERT INTO Product VALUES (" + this.product_code + ", " + this.product_name + ", " + this.product_cost + ", " + this.category.getCode() + ")");
 		} else {
-			Product.connection.executeUpdate("UPDATE Product SET product_code = " + this.product_code + ", product_name = " + this.product_name + ", product_cost = " + this.product_cost + ", category_code = " + this.category.getCode() + " WHERE product_code = " + this.product_code + ";");
+			Product.connection.executeUpdate("UPDATE Product SET product_code = " + this.product_code + ", product_name = " + this.product_name + ", product_cost = " + this.product_cost + ", category_code = " + this.category.getCode() + " WHERE product_code = " + this.product_code + "");
 		}
 		Product.connection.closeConnection();
 	}

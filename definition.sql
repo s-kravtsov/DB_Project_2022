@@ -1,2 +1,4 @@
 /* Définition des tables */
-
+CREATE TABLE Bid (bid_code INTEGER PRIMARY KEY, sale_code INTEGER, user_code INTEGER, accepted INTEGER, amount FLOAT(2), tstamp DATE, CONSTRAINT fk_sale FOREIGN KEY (sale_code) REFERENCES Sale(sale_code), CONSTRAINT fk_user FOREIGN KEY (user_code) REFERENCES BaseUser(user_code), CONSTRAINT accepted_bool CHECK(accepted IN (1, 0), CONSTRAINT amount_positive CHECK(amount > 0));
+CREATE TABLE Lot (lot_code INTEGER PRIMARY KEY, stock_code INTEGER, quantity_to_sell INTEGER, CONSTRAINT fk_stock FOREIGN KEY (stock_code) REFERENCES Stock(stock_code), CONSTRAINT quantity_positive CHECK(quantity_to_sell > 0));
+CREATE TABLE Stock (stock_code INTEGER PRIMARY KEY, user_code INTEGER, product_code INTEGER, quantity INTEGER, CONSTRAINT fk_user FOREIGN KEY (user_code) REFERENCES BaseUser(user_code), CONSTRAINT fk_product FOREIGN KEY (product_code) REFERENCES BaseUser(user_code), CONSTRAINT quantity_positive CHECK(quantity > 0));

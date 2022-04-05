@@ -22,7 +22,7 @@ public class Room {
 		ArrayList<Room> rooms = new ArrayList<Room>();
 		try {
 			Room.connection.openConnection();
-			ResultSet fetched_lines = Room.connection.executeQuery("SELECT * FROM Room;");
+			ResultSet fetched_lines = Room.connection.executeQuery("SELECT * FROM Room");
 			Room.connection.closeConnection();
 			while(fetched_lines.next()) {
 				rooms.add(new Room(fetched_lines.getInt("room_code"), Category.fetch("category_code = " + fetched_lines.getInt("category_code")).get(0)));
@@ -38,7 +38,7 @@ public class Room {
 		ArrayList<Room> rooms = new ArrayList<Room>();
 		try {
 			Room.connection.openConnection();
-			ResultSet fetched_lines = Room.connection.executeQuery("SELECT * FROM Room WHERE " + condition + ";");
+			ResultSet fetched_lines = Room.connection.executeQuery("SELECT * FROM Room WHERE " + condition);
 			Room.connection.closeConnection();
 			while(fetched_lines.next()) {
 				rooms.add(new Room(fetched_lines.getInt("room_code"), Category.fetch("category_code = " + fetched_lines.getInt("category_code")).get(0)));
@@ -53,9 +53,9 @@ public class Room {
   public void save() {
 		Room.connection.openConnection();
 		if(Room.fetch("room_code = " + this.room_code).size() == 0) {
-			Room.connection.executeUpdate("INSERT INTO Room VALUES (" + this.room_code + ", " + this.category.getCode() + ");");
+			Room.connection.executeUpdate("INSERT INTO Room VALUES (" + this.room_code + ", " + this.category.getCode() + ")");
 		} else {
-			Room.connection.executeUpdate("UPDATE Room SET room_code = " + this.room_code + ", category_code = " + this.category.getCode() + " WHERE room_code = " + this.room_code + ";");
+			Room.connection.executeUpdate("UPDATE Room SET room_code = " + this.room_code + ", category_code = " + this.category.getCode() + " WHERE room_code = " + this.room_code);
 		}
 		Room.connection.closeConnection();
 	}

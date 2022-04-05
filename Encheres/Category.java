@@ -16,7 +16,7 @@ public class Category {
 		ArrayList<Category> categories = new ArrayList<Category>();
     try {
       Category.connection.openConnection();
-  		ResultSet fetched_lines = Category.connection.executeQuery("SELECT * FROM Category;");
+  		ResultSet fetched_lines = Category.connection.executeQuery("SELECT * FROM Category");
   		Category.connection.closeConnection();
   		while(fetched_lines.next()) {
         categories.add(new Category(fetched_lines.getInt("category_code"), fetched_lines.getString("category_name")));
@@ -32,7 +32,7 @@ public class Category {
     ArrayList<Category> categories = new ArrayList<Category>();
     try {
       Category.connection.openConnection();
-  		ResultSet fetched_lines = Category.connection.executeQuery("SELECT * FROM Category WHERE " + condition + ";");
+  		ResultSet fetched_lines = Category.connection.executeQuery("SELECT * FROM Category WHERE " + condition + "");
   		Category.connection.closeConnection();
   		while(fetched_lines.next()) {
         categories.add(new Category(fetched_lines.getInt("category_code"), fetched_lines.getString("category_name")));
@@ -47,9 +47,9 @@ public class Category {
   public void save() {
 		Category.connection.openConnection();
 		if(Category.fetch("category_code = " + this.category_code).size() == 0) {
-			Category.connection.executeUpdate("INSERT INTO Category VALUES (" + this.category_code + ", " + this.category_name + ");");
+			Category.connection.executeUpdate("INSERT INTO Category VALUES (" + this.category_code + ", " + this.category_name + ")");
 		} else {
-			Category.connection.executeUpdate("UPDATE Category SET category_code = " + this.category_code + ", category_name = " + this.category_name + " WHERE category_code = " + this.category_code + ";");
+			Category.connection.executeUpdate("UPDATE Category SET category_code = " + this.category_code + ", category_name = " + this.category_name + " WHERE category_code = " + this.category_code + "");
 		}
 		Category.connection.closeConnection();
 	}

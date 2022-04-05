@@ -1,6 +1,7 @@
 import java.sql.*;
 import java.util.ArrayList;
 import oracle.jdbc.*;
+import oracle.jdbc.driver.OracleDriver;
 
 public class DatabaseConnection {
   private static DatabaseConnection instance;
@@ -19,27 +20,34 @@ public class DatabaseConnection {
   String password;
 
   public DatabaseConnection() {
-    url = "jdbc:oracle:thin//195.221.228.253:1521/oracle1";
-    username = "kravtsos";
-    password = "kravtsos";
+    this.url = "jdbc:oracle:thin:@localhost:1521/ORCLPDB1.localdomain";
+    this.username = "sergei";
+    this.password = "dbfmb96o";
     try {
-      Class.forName("oracle.jdbc.OracleDriver");
+      Class.forName("oracle.jdbc.driver.OracleDriver");
     } catch (ClassNotFoundException e) {
 
     }
+
     try {
-      DriverManager.registerDriver(new oracle.jdbc.OracleDriver());
+      DriverManager.registerDriver(new oracle.jdbc.driver.OracleDriver());
     } catch (SQLException e) {
       e.printStackTrace();
     }
+
 
 
   }
 
   public void openConnection() {
     try {
+      Class.forName("oracle.jdbc.driver.OracleDriver");
+    } catch (ClassNotFoundException e) {
+
+    }
+    try {
       this.connection = DriverManager.getConnection(this.url, this.username, this.password);
-      Statement statement = this.connection.createStatement();
+      this.statement = this.connection.createStatement();
     } catch (SQLException e) {
       e.printStackTrace();
     }

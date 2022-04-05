@@ -23,7 +23,7 @@ class BaseUser {
 		ArrayList<BaseUser> users = new ArrayList<BaseUser>();
     try {
       BaseUser.connection.openConnection();
-  		ResultSet fetched_lines = BaseUser.connection.executeQuery("SELECT * FROM BaseUser;");
+  		ResultSet fetched_lines = BaseUser.connection.executeQuery("SELECT * FROM BaseUser");
   		BaseUser.connection.closeConnection();
   		while(fetched_lines.next()) {
   			users.add(new BaseUser(fetched_lines.getInt("user_code"), fetched_lines.getString("email"), fetched_lines.getString("first_name"), fetched_lines.getString("last_name"), fetched_lines.getString("address")));
@@ -39,7 +39,7 @@ class BaseUser {
     ArrayList<BaseUser> users = new ArrayList<BaseUser>();
     try {
       BaseUser.connection.openConnection();
-  		ResultSet fetched_lines = BaseUser.connection.executeQuery("SELECT * FROM BaseUser WHERE " + condition + ";");
+  		ResultSet fetched_lines = BaseUser.connection.executeQuery("SELECT * FROM BaseUser WHERE " + condition + "");
   		BaseUser.connection.closeConnection();
   		while(fetched_lines.next()) {
   			users.add(new BaseUser(fetched_lines.getInt("user_code"), fetched_lines.getString("email"), fetched_lines.getString("first_name"), fetched_lines.getString("last_name"), fetched_lines.getString("address")));
@@ -54,9 +54,9 @@ class BaseUser {
   public void save() {
 		BaseUser.connection.openConnection();
 		if(BaseUser.fetch("user_code = " + this.user_code).size() == 0) {
-			BaseUser.connection.executeUpdate("INSERT INTO BaseUser VALUES (" + this.user_code + ", " + this.email + ", " + this.first_name + ", " + this.last_name + ", " + this.address + ");");
+			BaseUser.connection.executeUpdate("INSERT INTO BaseUser VALUES (" + this.user_code + ", " + this.email + ", " + this.first_name + ", " + this.last_name + ", " + this.address + ")");
 		} else {
-			BaseUser.connection.executeUpdate("UPDATE BaseUser SET user_code = " + this.user_code + ", email = " + this.email + ", first_name = " + this.first_name + ", last_name = " + this.last_name + ", address = " + this.address + " WHERE room_code = " + this.user_code + ";");
+			BaseUser.connection.executeUpdate("UPDATE BaseUser SET user_code = " + this.user_code + ", email = " + this.email + ", first_name = " + this.first_name + ", last_name = " + this.last_name + ", address = " + this.address + " WHERE room_code = " + this.user_code + "");
 		}
 		BaseUser.connection.closeConnection();
 	}

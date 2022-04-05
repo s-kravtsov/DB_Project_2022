@@ -39,7 +39,7 @@ public class Sale {
 		ArrayList<Sale> sales = new ArrayList<Sale>();
     try {
       Sale.connection.openConnection();
-  		ResultSet fetched_lines = Sale.connection.executeQuery("SELECT * FROM Sale;");
+  		ResultSet fetched_lines = Sale.connection.executeQuery("SELECT * FROM Sale");
   		Sale.connection.closeConnection();
   		while(fetched_lines.next()) {
         sales.add(new Sale(fetched_lines.getInt("sale_code"), Lot.fetch("lot_code = " + fetched_lines.getString("lot_code")).get(0), fetched_lines.getFloat("start_price"), fetched_lines.getString("sale_type"), fetched_lines.getBoolean("multiple_offer"), fetched_lines.getBoolean("limited"), new TimePoint(fetched_lines.getString("start_tstamp")), new TimePoint(fetched_lines.getString("end_tstamp")), fetched_lines.getBoolean("revocable"), fetched_lines.getInt("room_code")));
@@ -55,7 +55,7 @@ public class Sale {
     ArrayList<Sale> sales = new ArrayList<Sale>();
     try {
       Sale.connection.openConnection();
-  		ResultSet fetched_lines = Sale.connection.executeQuery("SELECT * FROM Sale WHERE " + condition + ";");
+  		ResultSet fetched_lines = Sale.connection.executeQuery("SELECT * FROM Sale WHERE " + condition + "");
   		Sale.connection.closeConnection();
   		while(fetched_lines.next()) {
         sales.add(new Sale(fetched_lines.getInt("sale_code"), Lot.fetch("lot_code = " + fetched_lines.getString("lot_code")).get(0), fetched_lines.getFloat("start_price"), fetched_lines.getString("sale_type"), fetched_lines.getBoolean("multiple_offer"), fetched_lines.getBoolean("limited"), new TimePoint(fetched_lines.getString("start_tstamp")), new TimePoint(fetched_lines.getString("end_tstamp")), fetched_lines.getBoolean("revocable"), fetched_lines.getInt("room_code")));
@@ -71,9 +71,9 @@ public class Sale {
 
       Sale.connection.openConnection();
   		if(Sale.fetch("sale_code = " + this.sale_code).size() == 0) {
-  			Sale.connection.executeUpdate("INSERT INTO Sale VALUES (" + this.sale_code + ", " + this.lot.getCode() + ", " + this.start_price + ", " + this.sale_type + ", " + this.multiple_offer + ", " + this.limited + ", TO_DATE('" + this.start_tstamp.toSqlDateTime() + "', 'YYYY-MM-DD HH24:MI')" + ", TO_DATE('" + this.end_tstamp.toSqlDateTime() + "', 'YYYY-MM-DD HH24:MI')" + ", " + this.revocable + ", " + this.room_code + ");");
+  			Sale.connection.executeUpdate("INSERT INTO Sale VALUES (" + this.sale_code + ", " + this.lot.getCode() + ", " + this.start_price + ", " + this.sale_type + ", " + this.multiple_offer + ", " + this.limited + ", TO_DATE('" + this.start_tstamp.toSqlDateTime() + "', 'YYYY-MM-DD HH24:MI')" + ", TO_DATE('" + this.end_tstamp.toSqlDateTime() + "', 'YYYY-MM-DD HH24:MI')" + ", " + this.revocable + ", " + this.room_code + ")");
   		} else {
-  			Sale.connection.executeUpdate("UPDATE Sale SET sale_code = " + this.sale_code + ", lot_code = " + this.lot.getCode() + ", start_price = " + this.start_price + ", sale_type = " + this.sale_type + ", multiple_offer = " + this.multiple_offer + ", limited = " + this.limited + ", start_tstamp = TO_DATE('" + this.start_tstamp.toSqlDateTime() + "', 'YYYY-MM-DD HH24:MI')" + ", end_tstamp = TO_DATE('" + this.end_tstamp.toSqlDateTime() + "', 'YYYY-MM-DD HH24:MI')" + ", revocable = " + this.revocable + ", room_code = " + this.room_code + " WHERE sale_code = " + this.sale_code + ";");
+  			Sale.connection.executeUpdate("UPDATE Sale SET sale_code = " + this.sale_code + ", lot_code = " + this.lot.getCode() + ", start_price = " + this.start_price + ", sale_type = " + this.sale_type + ", multiple_offer = " + this.multiple_offer + ", limited = " + this.limited + ", start_tstamp = TO_DATE('" + this.start_tstamp.toSqlDateTime() + "', 'YYYY-MM-DD HH24:MI')" + ", end_tstamp = TO_DATE('" + this.end_tstamp.toSqlDateTime() + "', 'YYYY-MM-DD HH24:MI')" + ", revocable = " + this.revocable + ", room_code = " + this.room_code + " WHERE sale_code = " + this.sale_code + "");
   		}
   		Sale.connection.closeConnection();
 

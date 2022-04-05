@@ -1,10 +1,11 @@
 #!/bin/sh
 echo "Compilation in process..."
 rm ../bin/*
-javac -classpath ../lib/ojdbc11.jar -d ./../bin ./../Encheres/*.java
+javac -cp ../lib/ojdbc11.jar -d ./../bin ./../Encheres/*.java
 echo "Compilation completed."
 if [ "$1" = "sergei" ]
 then
+ssh s_kravtsov_cloud@verschneit rm /app/encheres/*
 scp ../bin/* s_kravtsov_cloud@verschneit:/app/encheres
 echo "Exported to server."
 elif [ "$1" = "houssain" ]
