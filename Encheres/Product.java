@@ -22,10 +22,11 @@ public class Product {
     try {
       Product.connection.openConnection();
   		ResultSet fetched_lines = Product.connection.executeQuery("SELECT * FROM Product");
-  		Product.connection.closeConnection();
+
   		while(fetched_lines.next()) {
         products.add(new Product(fetched_lines.getInt("product_code"), fetched_lines.getString("product_name"), fetched_lines.getFloat("product_cost"), Category.fetch("category_code = " + fetched_lines.getInt("category_code")).get(0)));
   		}
+      Product.connection.closeConnection();
     } catch (SQLException e) {
       e.printStackTrace();
     }
@@ -38,10 +39,11 @@ public class Product {
     try {
       Product.connection.openConnection();
   		ResultSet fetched_lines = Product.connection.executeQuery("SELECT * FROM Product WHERE " + condition + "");
-  		Product.connection.closeConnection();
+
   		while(fetched_lines.next()) {
         products.add(new Product(fetched_lines.getInt("product_code"), fetched_lines.getString("product_name"), fetched_lines.getFloat("product_cost"), Category.fetch("category_code = " + fetched_lines.getInt("category_code")).get(0)));
   		}
+      Product.connection.closeConnection();
     } catch (SQLException e) {
       e.printStackTrace();
     }

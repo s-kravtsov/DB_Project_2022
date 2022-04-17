@@ -24,10 +24,11 @@ class BaseUser {
     try {
       BaseUser.connection.openConnection();
   		ResultSet fetched_lines = BaseUser.connection.executeQuery("SELECT * FROM BaseUser");
-  		BaseUser.connection.closeConnection();
+
   		while(fetched_lines.next()) {
   			users.add(new BaseUser(fetched_lines.getInt("user_code"), fetched_lines.getString("email"), fetched_lines.getString("first_name"), fetched_lines.getString("last_name"), fetched_lines.getString("address")));
   		}
+      BaseUser.connection.closeConnection();
     } catch (SQLException e) {
       e.printStackTrace();
     }
@@ -40,10 +41,11 @@ class BaseUser {
     try {
       BaseUser.connection.openConnection();
   		ResultSet fetched_lines = BaseUser.connection.executeQuery("SELECT * FROM BaseUser WHERE " + condition + "");
-  		BaseUser.connection.closeConnection();
+
   		while(fetched_lines.next()) {
   			users.add(new BaseUser(fetched_lines.getInt("user_code"), fetched_lines.getString("email"), fetched_lines.getString("first_name"), fetched_lines.getString("last_name"), fetched_lines.getString("address")));
   		}
+      BaseUser.connection.closeConnection();
     } catch (SQLException e) {
       e.printStackTrace();
     }
@@ -72,12 +74,20 @@ class BaseUser {
   public static BaseUser identify() {
 
     ArrayList<BaseUser> users = BaseUser.fetch();
+
+    for(BaseUser user : users) {
+      System.out.println(user.show());
+    }
+
     System.out.println("Vous êtes : ");
     for(BaseUser user : users) {
       user.show();
     }
 
     String user_choice = System.console().readLine();
+    if (user_choice == "exit") {
+      System.exit(0);
+    }
 
     for(BaseUser user : users) {
       if(user.getCode() == Integer.parseInt(user_choice)) {

@@ -17,10 +17,11 @@ public class Category {
     try {
       Category.connection.openConnection();
   		ResultSet fetched_lines = Category.connection.executeQuery("SELECT * FROM Category");
-  		Category.connection.closeConnection();
+
   		while(fetched_lines.next()) {
         categories.add(new Category(fetched_lines.getInt("category_code"), fetched_lines.getString("category_name")));
   		}
+      Category.connection.closeConnection();
     } catch (SQLException e) {
       e.printStackTrace();
     }
@@ -33,10 +34,11 @@ public class Category {
     try {
       Category.connection.openConnection();
   		ResultSet fetched_lines = Category.connection.executeQuery("SELECT * FROM Category WHERE " + condition + "");
-  		Category.connection.closeConnection();
+
   		while(fetched_lines.next()) {
         categories.add(new Category(fetched_lines.getInt("category_code"), fetched_lines.getString("category_name")));
   		}
+      Category.connection.closeConnection();
     } catch (SQLException e) {
       e.printStackTrace();
     }

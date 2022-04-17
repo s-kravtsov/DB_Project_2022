@@ -34,7 +34,7 @@ public class Building {
     String user_choice = System.console().readLine();
 
     if(user_choice == "exit") {
-      return false;
+      System.exit(0);
     }
 
     for(Room room : this.rooms) {

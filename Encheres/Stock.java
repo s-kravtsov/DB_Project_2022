@@ -26,10 +26,11 @@ public class Stock {
     try {
       Stock.connection.openConnection();
   		ResultSet fetched_lines = Stock.connection.executeQuery("SELECT * FROM Stock");
-  		Stock.connection.closeConnection();
+
   		while(fetched_lines.next()) {
         stock_lines.add(new Stock(fetched_lines.getInt("stock_code"), BaseUser.fetch("user_code = " + fetched_lines.getString("user_code")).get(0), Product.fetch("product_code = " + fetched_lines.getString("product_code")).get(0), fetched_lines.getInt("quantity")));
   		}
+      Stock.connection.closeConnection();
     } catch (SQLException e) {
       e.printStackTrace();
     }
@@ -42,10 +43,11 @@ public class Stock {
     try {
       Stock.connection.openConnection();
   		ResultSet fetched_lines = Stock.connection.executeQuery("SELECT * FROM Stock WHERE " + condition + "");
-  		Stock.connection.closeConnection();
+
   		while(fetched_lines.next()) {
         stock_lines.add(new Stock(fetched_lines.getInt("stock_code"), BaseUser.fetch("user_code = " + fetched_lines.getString("user_code")).get(0), Product.fetch("product_code = " + fetched_lines.getString("product_code")).get(0), fetched_lines.getInt("quantity")));
   		}
+      Stock.connection.closeConnection();
     } catch (SQLException e) {
       e.printStackTrace();
     }

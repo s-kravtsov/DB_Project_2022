@@ -20,10 +20,11 @@ class Lot {
     try {
       Lot.connection.openConnection();
   		ResultSet fetched_lines = Lot.connection.executeQuery("SELECT * FROM Lot");
-  		Lot.connection.closeConnection();
+
   		while(fetched_lines.next()) {
         lots.add(new Lot(fetched_lines.getInt("lot_code"), Stock.fetch("stock_code = " + fetched_lines.getString("stock_code")).get(0), fetched_lines.getInt("quantity_to_sell")));
   		}
+      Lot.connection.closeConnection();
     } catch (SQLException e) {
       e.printStackTrace();
     }
@@ -36,10 +37,11 @@ class Lot {
     try {
       Lot.connection.openConnection();
   		ResultSet fetched_lines = Lot.connection.executeQuery("SELECT * FROM Lot WHERE " + condition + "");
-  		Lot.connection.closeConnection();
+
   		while(fetched_lines.next()) {
         lots.add(new Lot(fetched_lines.getInt("lot_code"), Stock.fetch("stock_code = " + fetched_lines.getString("stock_code")).get(0), fetched_lines.getInt("quantity_to_sell")));
   		}
+      Lot.connection.closeConnection();
     } catch (SQLException e) {
       e.printStackTrace();
     }

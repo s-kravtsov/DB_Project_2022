@@ -1,0 +1,36 @@
+server:
+ error:
+  include-message: always
+  include-binding-errors: always
+ 
+spring:
+ datasource:
+  password: dbfmb96o
+  url: jdbc:oracle:thin:@localhost:1521/ORCLPDB1.localdomain
+  username: sergei
+ jpa:
+  hibernate:
+   ddl-auto: create-drop
+  properties:
+   hibernate:
+    dialect: org.hibernate.dialect.Oracle10gDialect
+    format_sql: true
+  show-sql: true
+ mail:
+  host: localhost
+  port: 1025
+  username: toto
+  password: toto
+  
+  properties:
+   mail:
+    smtp:
+     ssl:
+      trust: "*"
+     auth: true
+     starttls:
+      enable: true
+     connectiontimeout: 5000
+     timeout: 3000
+     writetimeout: 5000
+      

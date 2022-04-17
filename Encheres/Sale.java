@@ -39,11 +39,12 @@ public class Sale {
 		ArrayList<Sale> sales = new ArrayList<Sale>();
     try {
       Sale.connection.openConnection();
-  		ResultSet fetched_lines = Sale.connection.executeQuery("SELECT * FROM Sale");
-  		Sale.connection.closeConnection();
+  		ResultSet fetched_lines = Sale.connection.executeQuery("SELECT sale_code, lot_code, start_price, sale_type, multiple_offer, limited, TO_CHAR(start_tstamp, 'YYYY-MM-DD HH:MM') as start_tstamp, TO_CHAR(end_tstamp, 'YYYY-MM-DD HH:MM') as end_tstamp, revocable, room_code FROM Sale");
+
   		while(fetched_lines.next()) {
         sales.add(new Sale(fetched_lines.getInt("sale_code"), Lot.fetch("lot_code = " + fetched_lines.getString("lot_code")).get(0), fetched_lines.getFloat("start_price"), fetched_lines.getString("sale_type"), fetched_lines.getBoolean("multiple_offer"), fetched_lines.getBoolean("limited"), new TimePoint(fetched_lines.getString("start_tstamp")), new TimePoint(fetched_lines.getString("end_tstamp")), fetched_lines.getBoolean("revocable"), fetched_lines.getInt("room_code")));
   		}
+      Sale.connection.closeConnection();
     } catch (SQLException e) {
       e.printStackTrace();
     }
@@ -55,11 +56,12 @@ public class Sale {
     ArrayList<Sale> sales = new ArrayList<Sale>();
     try {
       Sale.connection.openConnection();
-  		ResultSet fetched_lines = Sale.connection.executeQuery("SELECT * FROM Sale WHERE " + condition + "");
-  		Sale.connection.closeConnection();
+  		ResultSet fetched_lines = Sale.connection.executeQuery("SELECT sale_code, lot_code, start_price, sale_type, multiple_offer, limited, TO_CHAR(start_tstamp, 'YYYY-MM-DD HH:MM') as start_tstamp, TO_CHAR(end_tstamp, 'YYYY-MM-DD HH:MM') as end_tstamp, revocable, room_code FROM Sale WHERE " + condition + "");
+
   		while(fetched_lines.next()) {
         sales.add(new Sale(fetched_lines.getInt("sale_code"), Lot.fetch("lot_code = " + fetched_lines.getString("lot_code")).get(0), fetched_lines.getFloat("start_price"), fetched_lines.getString("sale_type"), fetched_lines.getBoolean("multiple_offer"), fetched_lines.getBoolean("limited"), new TimePoint(fetched_lines.getString("start_tstamp")), new TimePoint(fetched_lines.getString("end_tstamp")), fetched_lines.getBoolean("revocable"), fetched_lines.getInt("room_code")));
   		}
+      Sale.connection.closeConnection();
     } catch (SQLException e) {
       e.printStackTrace();
     }
@@ -85,7 +87,7 @@ public class Sale {
   }
 
   public String show() {
-    return sale_code + ". " + this.lot.show() + " : "+ best_bid.show() + "€\nClôture dans : " + end_tstamp.difference(TimePoint.now()).inMinutes();
+    return this.sale_code + ". " + this.lot.show() + " : "+ /*this.best_bid.show() +*/ "€\nClôture dans : " + end_tstamp.difference(TimePoint.now()).inMinutes();
   }
 
   public boolean placeNewBid(BaseUser bidder, Float amount) {
@@ -93,7 +95,6 @@ public class Sale {
     if(this.best_bid == null || new_bid.isBiggerThan(this.best_bid)) {
       this.best_bid = new_bid;
       new_bid.save();
-      this.save();
       return true;
     } else {
       return false;

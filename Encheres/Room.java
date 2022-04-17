@@ -23,10 +23,11 @@ public class Room {
 		try {
 			Room.connection.openConnection();
 			ResultSet fetched_lines = Room.connection.executeQuery("SELECT * FROM Room");
-			Room.connection.closeConnection();
+
 			while(fetched_lines.next()) {
 				rooms.add(new Room(fetched_lines.getInt("room_code"), Category.fetch("category_code = " + fetched_lines.getInt("category_code")).get(0)));
 			}
+			Room.connection.closeConnection();
 		} catch (SQLException e) {
       e.printStackTrace();
     }
@@ -39,10 +40,11 @@ public class Room {
 		try {
 			Room.connection.openConnection();
 			ResultSet fetched_lines = Room.connection.executeQuery("SELECT * FROM Room WHERE " + condition);
-			Room.connection.closeConnection();
+
 			while(fetched_lines.next()) {
 				rooms.add(new Room(fetched_lines.getInt("room_code"), Category.fetch("category_code = " + fetched_lines.getInt("category_code")).get(0)));
 			}
+			Room.connection.closeConnection();
 		} catch (SQLException e) {
       e.printStackTrace();
     }
@@ -69,7 +71,7 @@ public class Room {
 	}
 
 	public void enter(BaseUser user) {
-		ArrayList<Sale> sales = Sale.fetch("room_code = " + this.room_code);
+		ArrayList<Sale> sales = Sale.fetch("room_code = " + Integer.toString(this.room_code));
 		System.out.println("Bienvenue dans la salle \"" + this.show() + "\"");
 		System.out.println("Voici les ventes en cours :");
 		for(Sale sale : sales) {
@@ -79,7 +81,7 @@ public class Room {
 		String user_choice = System.console().readLine();
 
     if(user_choice == "exit") {
-      return;
+      System.exit(0);
     }
 
 		for(Sale sale : sales) {
