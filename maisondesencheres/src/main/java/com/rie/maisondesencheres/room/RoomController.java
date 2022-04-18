@@ -23,13 +23,21 @@ public class RoomController {
 	
 	
 	@GetMapping("/")
-	public String roomController(/*HttpServletRequest request, ModelMap model_map*/Model model) {
+	public String globalView(/*HttpServletRequest request, ModelMap model_map*/Model model) {
 		/*
 		String name = request.getParameter("name");
 		model_map.put("name", name);
 		*/
 		List<Room> rooms = room_service.fetchAll();
 		model.addAttribute("rooms", rooms);
+		return "global";
+	}
+	
+	@GetMapping("/room")
+	public String roomView(HttpServletRequest request, Model model) {
+		String room_code = request.getParameter("room_code");
+		Room room = room_service.findById(Long.parseLong(room_code)).get();
+		model.addAttribute("room", room);
 		return "room";
 	}
 

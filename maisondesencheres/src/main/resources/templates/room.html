@@ -4,8 +4,31 @@
 <meta charset="UTF-8"/>
 </head>
 <body>
-<ul th:each="room : ${rooms}">
-    <li th:text="${room.getId()}"></li>
+<h1 th:text="${room.getId()}"></h1>
+<ul th:each="sale : ${room.getSales()}">
+	<ul>
+		<li th:text="'Lot : ' + ${sale.getLot().showLot()}"></li>
+		<li th:text="'Début de vente : ' + ${sale.getStart_tstamp().toString()}"></li>
+		<li th:text="'Fin de vente : ' + ${sale.getEnd_tstamp().toString()}"></li>
+		<li th:text="'Prix initial : ' + ${sale.getStart_price().toString()}"></li>
+		<li><button th:attr="salecode=${sale.getId()}" class="BidButton" onclick="placeBid(this)">Bid</button>
+	</ul>
 </ul>
+<div>
+<form action="/sale" method="post">
+	<label for="amount">Votre poposition :</label>
+	<input type="number" id="amount" name="amount" />
+	<input type="hidden" id="sale_code" name="sale_code" />
+	<input type="submit" value="Submit" />
+</form>
+</div>
+<script>
+	function placeBid(el) {
+		var sbmt = document.getElementById("sale_code");
+		console.log(sbmt);
+		console.log(this.salecode);
+		sbmt.value = el.getAttribute("salecode");
+	}
+</script>
 </body>
 </html>

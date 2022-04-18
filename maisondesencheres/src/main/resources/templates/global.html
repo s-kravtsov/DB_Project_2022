@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8"/>
+</head>
+<body>
+<ul th:each="room : ${rooms}">
+    <li><a th:text="${room.getId()} + ' : ' + ${room.getCategory().getCategory_name()}" th:href="@{/room(room_code=${room.getId()})}"></a ></li>
+</ul>
+</body>
+</html>

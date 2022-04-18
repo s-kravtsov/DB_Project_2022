@@ -1,22 +1,15 @@
-package com.rie.maisondesencheres.room;
-
-import com.rie.maisondesencheres.sale.Sale;
-
-import java.util.Collection;
+package com.rie.maisondesencheres.product;
 
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.rie.maisondesencheres.baseuser.BaseUser;
+import com.rie.maisondesencheres.room.Category;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -28,20 +21,22 @@ import lombok.Setter;
 @EqualsAndHashCode
 @NoArgsConstructor
 @Entity
-public class Room {
-	@SequenceGenerator(name = "id_Sequence_room", sequenceName = "ID_SEQ_room")
-	@Id
-	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator = "id_Sequence_room")
-	private Long id;
+public class Product {
 	
+	@SequenceGenerator(name = "id_Sequence_product", sequenceName = "ID_SEQ_product")
+	@Id
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator = "id_Sequence_product")
+	private Long id;
+	private String product_name;
+	private Long product_cost;
 	@ManyToOne
 	private Category category;
 	
-	@OneToMany
-	private Collection<Sale> sales;
-	
 	@Autowired
-	public Room(Category category) {
+	public Product(String product_name, Long product_cost, Category category) {
+		this.product_name = product_name;
+		this.product_cost = product_cost;
 		this.category = category;
 	}
+	
 }

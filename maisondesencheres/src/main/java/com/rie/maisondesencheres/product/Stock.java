@@ -1,17 +1,10 @@
-package com.rie.maisondesencheres.room;
-
-import com.rie.maisondesencheres.sale.Sale;
-
-import java.util.Collection;
+package com.rie.maisondesencheres.product;
 
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,20 +21,26 @@ import lombok.Setter;
 @EqualsAndHashCode
 @NoArgsConstructor
 @Entity
-public class Room {
-	@SequenceGenerator(name = "id_Sequence_room", sequenceName = "ID_SEQ_room")
+public class Stock {
+	@SequenceGenerator(name = "id_Sequence_stock", sequenceName = "ID_SEQ_stock")
 	@Id
-	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator = "id_Sequence_room")
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator = "id_Sequence_stock")
 	private Long id;
-	
+	private Long quantity;
 	@ManyToOne
-	private Category category;
-	
-	@OneToMany
-	private Collection<Sale> sales;
+	private BaseUser base_user;
+	@ManyToOne
+	private Product product;
 	
 	@Autowired
-	public Room(Category category) {
-		this.category = category;
+	public Stock(Long quantity, BaseUser base_user, Product product) {
+		this.quantity = quantity;
+		this.base_user = base_user;
+		this.product = product;
 	}
+	
+	public String showStockProduct() {
+		return product.getProduct_name();
+	}
+
 }
