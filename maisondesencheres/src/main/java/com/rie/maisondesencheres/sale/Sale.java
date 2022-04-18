@@ -3,6 +3,7 @@ package com.rie.maisondesencheres.sale;
 import java.time.LocalDateTime;
 import java.util.Collection;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -42,7 +43,7 @@ public class Sale {
 	private LocalDateTime end_tstamp;
 	private Boolean revocable;
 	
-	@OneToMany
+	@OneToMany(cascade = { CascadeType.ALL })
 	private Collection<Bid> bids;
 	
 	@Autowired
@@ -55,6 +56,10 @@ public class Sale {
 		this.start_tstamp = start_tstamp;
 		this.end_tstamp = end_tstamp;
 		this.revocable = revocable;
+	}
+	
+	public void addBid(Bid bid) {
+		bids.add(bid);
 	}
 	
 

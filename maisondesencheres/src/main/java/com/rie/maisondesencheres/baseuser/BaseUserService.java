@@ -46,8 +46,9 @@ public class BaseUserService implements UserDetailsService {
 		
 		confirmation_token_service.saveConfirmationToken(confirmation_token);
 		
+		/* Send token by email */ 
 		
-		return token;
+		return "Succès";
 	}
 	
 	public int enableBaseUser(String email) {

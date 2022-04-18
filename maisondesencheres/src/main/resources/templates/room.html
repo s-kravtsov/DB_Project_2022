@@ -2,33 +2,30 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8"/>
+<title th:text="'Salle n° ' + ${room.getId()}"></title>
+<link rel="stylesheet" type="text/css" media="all" href="../css/main.css" th:href="@{/css/main.css}" />
+<link rel="icon" href="../media/icon.png" th:href="@{/media/icon.png}" />
 </head>
 <body>
-<h1 th:text="${room.getId()}"></h1>
-<ul th:each="sale : ${room.getSales()}">
-	<ul>
-		<li th:text="'Lot : ' + ${sale.getLot().showLot()}"></li>
-		<li th:text="'Début de vente : ' + ${sale.getStart_tstamp().toString()}"></li>
-		<li th:text="'Fin de vente : ' + ${sale.getEnd_tstamp().toString()}"></li>
-		<li th:text="'Prix initial : ' + ${sale.getStart_price().toString()}"></li>
-		<li><button th:attr="salecode=${sale.getId()}" class="BidButton" onclick="placeBid(this)">Bid</button>
-	</ul>
-</ul>
-<div>
+<a href="javascript:history.back()" class="BackButton">Retour</a>
+<div class="Grid">
+	<button th:each="sale : ${room.getSales()}" th:attr="salecode=${sale.getId()}" class="GridItem" onclick="placeBid(this)">
+		<p th:text="'Lot : ' + ${sale.getLot().showLot()}"></p>
+		<p th:text="'Début de vente : ' + ${sale.getStart_tstamp().toString()}"></p>
+		<p th:text="'Prix initial : ' + ${sale.getStart_price().toString()}"></p>
+		<p th:text="'Début de vente : ' + ${sale.getStart_tstamp().toString()}"></p>
+	</button >
+</div>
+
+<div class="BidFormWrapper Off" id="bid_form">
+<button onclick="closeForm()" class="CloseButton">Fermer</button>
 <form action="/sale" method="post">
 	<label for="amount">Votre poposition :</label>
 	<input type="number" id="amount" name="amount" />
 	<input type="hidden" id="sale_code" name="sale_code" />
-	<input type="submit" value="Submit" />
+	<input type="submit" value="Submit" class="BidSubmitButton"/>
 </form>
 </div>
-<script>
-	function placeBid(el) {
-		var sbmt = document.getElementById("sale_code");
-		console.log(sbmt);
-		console.log(this.salecode);
-		sbmt.value = el.getAttribute("salecode");
-	}
-</script>
+<script type="text/javascript" src="../js/bidFormWrapper.js" th:src="@{/js/bidFormWrapper.js}"></script>
 </body>
 </html>
