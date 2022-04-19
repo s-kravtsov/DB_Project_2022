@@ -8,6 +8,11 @@
 </head>
 <body>
 <div class="Grid">
+	<a>
+		<a href="/profile" class="BackButton">Mon profile</a>
+	</a>
+</div>
+<div class="Grid">
 	<a  th:each="room : ${rooms}" th:href="@{/room(room_code=${room.getId()})}" class="GridItem">
 		<p th:text="'Salle n° ' + ${room.getId()}"></p>
 		<p th:text="${room.getCategory().getCategory_name()}"></p>

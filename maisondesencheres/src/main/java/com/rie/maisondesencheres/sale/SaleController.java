@@ -28,7 +28,7 @@ public class SaleController {
 		BaseUser base_user = (BaseUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		Long amount = Long.parseLong(request.getParameter("amount"));
 		
-		Bid bid = new Bid(base_user, false, amount, LocalDateTime.now());
+		Bid bid = new Bid(base_user, false, amount, LocalDateTime.now(), sale);
 		
 		sale_service.placeBid(sale, bid);
 		return "bidConfirmation";

@@ -1,6 +1,7 @@
 package com.rie.maisondesencheres.sale;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Collection;
 
 import javax.persistence.CascadeType;
@@ -15,6 +16,9 @@ import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+
+import com.rie.maisondesencheres.baseuser.BaseUser;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -60,6 +64,22 @@ public class Sale {
 	
 	public void addBid(Bid bid) {
 		bids.add(bid);
+	}
+	
+	public Bid getBestBid() {
+		Bid best_bid;
+		if(bids.size() > 0) {
+			best_bid = bids.iterator().next();
+		} else {
+			best_bid = new Bid((BaseUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal(), false, start_price, LocalDateTime.now(), this);
+		}
+		
+		for (Bid bid : bids) {
+			if(bid.getAmount() > best_bid.getAmount()) {
+				best_bid = bid;
+			}
+		}
+		return best_bid;
 	}
 	
 

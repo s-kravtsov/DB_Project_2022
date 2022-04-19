@@ -48,7 +48,7 @@ public class BaseUserService implements UserDetailsService {
 		
 		/* Send token by email */ 
 		
-		return "Succès";
+		return token;
 	}
 	
 	public int enableBaseUser(String email) {

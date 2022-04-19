@@ -13,7 +13,8 @@
 		<p th:text="'Lot : ' + ${sale.getLot().showLot()}"></p>
 		<p th:text="'Début de vente : ' + ${sale.getStart_tstamp().toString()}"></p>
 		<p th:text="'Prix initial : ' + ${sale.getStart_price().toString()}"></p>
-		<p th:text="'Début de vente : ' + ${sale.getStart_tstamp().toString()}"></p>
+		<p th:text="'Meilleure offre : ' + ${sale.getBestBid().getAmount().toString()}"></p>
+		<p th:text="'Fin de vente : ' + ${sale.getEnd_tstamp().toString()}"></p>
 	</button >
 </div>
 

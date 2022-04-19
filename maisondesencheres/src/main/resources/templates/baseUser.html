@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8"/>
+<title>Maison des enchères</title>
+<link rel="stylesheet" type="text/css" media="all" href="../css/main.css" th:href="@{/css/main.css}" />
+<link rel="icon" href="../media/icon.png" th:href="@{/media/icon.png}" />
+</head>
+<body>
+<a href="javascript:history.back()" class="BackButton">Retour</a>
+<h1 th:text="'Bonjour ' + ${base_user.getFirst_name()} + ' ' + ${base_user.getLast_name()}  + ' !'"></h1>
+<p th:text="'Votre email : ' + ${base_user.getEmail()}"></p>
+<h2>Historique des enchères : </h2>
+<ul th:each="bid : ${base_user_bids}">
+	<li th:text="${bid.getTstamp().toString()} + ' | ' + ${bid.getSale().getLot().showLot()} + ' : ' + ${bid.getAmount().toString()} + '€'"></li>
+</ul>
+</body>
+</html>

@@ -34,12 +34,16 @@ public class Bid {
 	private Long amount;
 	private LocalDateTime tstamp;
 	
+	@ManyToOne
+	private Sale sale;
+	
 	@Autowired
-	public Bid(BaseUser base_user, Boolean accepted, Long amount, LocalDateTime tstamp) {
+	public Bid(BaseUser base_user, Boolean accepted, Long amount, LocalDateTime tstamp, Sale sale) {
 		this.base_user = base_user;
 		this.accepted = accepted;
 		this.amount = amount;
 		this.tstamp = tstamp;
+		this.sale = sale;
 	}
 
 }
