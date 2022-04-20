@@ -95,5 +95,8 @@ public class BaseUser implements UserDetails {
 		return enabled;
 	}
 	
+	public String getFullName() {
+		return first_name + ' ' + last_name;
+	}
 
 }

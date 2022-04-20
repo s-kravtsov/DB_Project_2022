@@ -12,7 +12,7 @@
 <p th:text="'Votre email : ' + ${base_user.getEmail()}"></p>
 <h2>Historique des enchères : </h2>
 <ul th:each="bid : ${base_user_bids}">
-	<li th:text="${bid.getTstamp().toString()} + ' | ' + ${bid.getSale().getLot().showLot()} + ' : ' + ${bid.getAmount().toString()} + '€'"></li>
+	<li th:text="'Le ' + ${#temporals.format(bid.getTstamp(), 'dd/MM/yyyy HH:mm')} + ' : ' + ${bid.getAmount().toString()} + '€' + ' sur ' + ${bid.getSale().getLot().showLot()}"></li>
 </ul>
 </body>
 </html>
