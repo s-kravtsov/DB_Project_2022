@@ -25,7 +25,7 @@ public class RegistrationService {
 
 	public String register(RegistrationRequest request) {
 		
-		String token = baseuser_service.signUpUser(new BaseUser(request.getFirstName(),request.getLastName(), request.getEmail(), request.getPassword(), BaseUserRole.USER ));
+		String token = baseuser_service.signUpUser(new BaseUser(request.getFirstName(),request.getLastName(), request.getEmail(), request.getPassword(), BaseUserRole.USER, "not specified"));
 		
 		String link = "http://34.65.198.124:8080/api/v1/registration/confirm?token=" + token;
 		

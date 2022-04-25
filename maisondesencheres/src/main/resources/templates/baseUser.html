@@ -7,12 +7,41 @@
 <link rel="icon" href="../media/icon.png" th:href="@{/media/icon.png}" />
 </head>
 <body>
+<div class="Header">
+	<div style="display: flex; height: 100%; align-items: center;">
+		<img class="HeaderImage" src="../media/hicon.png" th:src="@{/media/hicon.png}" />
+		<a href="/" class="HeaderLink">Baie-électronique</a>
+	</div>
+	<div style="display: flex; height: 100%; align-items: center;">
+		<a href="/sale/new" class="HeaderLink">Créer une vente</a>
+		<a href="/profile" class="HeaderLink">Espace personnel</a>
+		<a href="/logout" class="HeaderLink">Se déconnecter</a>
+	</div>
+</div>
+<div class="Grid">
 <a href="javascript:history.back()" class="BackButton">Retour</a>
+</div>
+<div class="Grid">
+<div class="BaseUserItem">
 <h1 th:text="'Bonjour ' + ${base_user.getFirst_name()} + ' ' + ${base_user.getLast_name()}  + ' !'"></h1>
 <p th:text="'Votre email : ' + ${base_user.getEmail()}"></p>
-<h2>Historique des enchères : </h2>
-<ul th:each="bid : ${base_user_bids}">
-	<li th:text="'Le ' + ${#temporals.format(bid.getTstamp(), 'dd/MM/yyyy HH:mm')} + ' : ' + ${bid.getAmount().toString()} + '€' + ' sur ' + ${bid.getSale().getLot().showLot()}"></li>
-</ul>
+<p th:text="'Votre adresse : ' + ${base_user.getAdresse()}"></p>
+</div>
+<div class="BaseUserItem">
+<div th:each="bid : ${base_user_bids}" class="BidBox">
+<span th:text="'Le ' + ${#temporals.format(bid.getTstamp(), 'dd/MM/yyyy HH:mm')} + ' : ' + ${bid.getAmount().toString()} + '€' + ' sur ' + ${bid.getQuantity()} + '/' + ${bid.getSale().getLot().showLot()}"></span>
+<span th:text="${bid.getAccepted()} ? 'Accepté' : 'Non accepté'"></span>
+</div>
+</div>
+</div>
+<div class="Grid">
+	<a th:each="sale : ${base_user_sales}" th:attr="salecode=${sale.getId()}" class="GridItem" th:href="@{/saleDetail(sale_code=${sale.getId()})}">
+		<div class="GridItemHeader"><span th:text="${sale.getLot().showLot()}"></span></div>
+		<span class="GridItemAttr" th:text="'Début de vente : ' + ${#temporals.format(sale.getStart_tstamp(), 'dd/MM/yyyy HH:mm')}"></span>
+		<span class="GridItemAttr" th:text="'Prix : ' + ${sale.getStart_price().toString()}"></span>
+		<span class="GridItemAttr" th:text="'Meilleure offre : ' + ${sale.getBestBid()?.getAmount()}"></span>
+		<span class="GridItemAttr" th:text="'Fin de vente : ' + ${#temporals.format(sale.getEnd_tstamp(), 'dd/MM/yyyy HH:mm')}"></span>
+	</a >
+</div>
 </body>
 </html>

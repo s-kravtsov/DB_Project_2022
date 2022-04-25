@@ -7,29 +7,47 @@
 <link rel="icon" href="../media/icon.png" th:href="@{/media/icon.png}" />
 </head>
 <body>
-<a href="javascript:history.back()" class="BackButton">Retour</a>
+<div class="Header">
+	<div style="display: flex; height: 100%; align-items: center;">
+		<img class="HeaderImage" src="../media/hicon.png" th:src="@{/media/hicon.png}" />
+		<a href="/" class="HeaderLink">Baie-électronique</a>
+	</div>
+	<div style="display: flex; height: 100%; align-items: center;">
+		<a href="/sale/new" class="HeaderLink">Créer une vente</a>
+		<a href="/profile" class="HeaderLink">Espace personnel</a>
+		<a href="/logout" class="HeaderLink">Se déconnecter</a>
+	</div>
+</div>
 <div class="Grid">
-	<button th:each="sale : ${room.getSales()}" th:attr="salecode=${sale.getId()}" class="GridItem" onclick="placeBid(this)">
-		<p th:text="'Lot : ' + ${sale.getLot().showLot()}"></p>
-		<p th:text="'Début de vente : ' + ${#temporals.format(sale.getStart_tstamp(), 'dd/MM/yyyy HH:mm')}"></p>
-		<p th:text="'Prix initial : ' + ${sale.getStart_price().toString()}"></p>
-		<p th:text="'Meilleure offre : ' + ${sale.getBestBid().getAmount().toString()}"></p>
-
-		<p th:text="'Fin de vente : ' + ${#temporals.format(sale.getEnd_tstamp(), 'dd/MM/yyyy HH:mm')}"></p>
-
-		<p th:text="'Publié par : ' + ${sale.getLot().getStock().getBase_user().getFullName()}"></p>
-	</button >
+<a href="javascript:history.back()" class="BackButton">Retour</a>
+</div>
+<div class="Grid">
+	<div th:each="sale : ${room.getOpenSales()}" th:attr="amount=${sale.getStart_price()},salecode=${sale.getId()},quantity=${sale.getLot().getProduct().getStock()}"  class="GridItem" onclick="placeBid(this)">
+		<div class="GridItemHeader"><span th:text="${sale.getLot().getProduct().getProduct_name()}"></span></div>
+		<span class="GridItemAttr" th:text="'Quantité : ' + ${sale.getLot().getProduct().getStock()}"></span>
+		
+		<span class="GridItemAttr" th:if="${!sale.getMultiple_offer()}" th:text="'Seulement 1 enchère possible'"></span>
+		<span class="GridItemAttr" th:text="'Publié par : ' + ${sale.getLot().getProduct().getBase_user().getFullName()}"></span>
+		<span class="GridItemAttr" th:text="'Début de vente : ' + ${#temporals.format(sale.getStart_tstamp(), 'dd/MM/yyyy HH:mm')}"></span>
+		<span class="GridItemAttr" th:text="'Prix : ' + ${sale.getStart_price().toString()}"></span>
+		<span class="GridItemAttr" th:text="'Meilleure offre : ' + ${sale.getBestBid()?.getAmount()}"></span>
+		<span class="GridItemAttr" th:text="'Fin de vente : ' + ${#temporals.format(sale.getEnd_tstamp(), 'dd/MM/yyyy HH:mm')}"></span>
+	</div >
 </div>
 
 <div class="BidFormWrapper Off" id="bid_form">
 <button onclick="closeForm()" class="CloseButton">Fermer</button>
 <form action="/sale" method="post">
-	<label for="amount">Votre poposition :</label>
+	<label for="quantity" id="quantity_label">Quantité :</label>
+	<input type="number" id="quantity" name="quantity" />
+	<label for="amount" id="amount_label">Montant :</label>
 	<input type="number" id="amount" name="amount" />
 	<input type="hidden" id="sale_code" name="sale_code" />
+	<input type="hidden" id="room_type" name="room_type" th:attr="value=${room.getRoom_type().toString()}"/>
 	<input type="submit" value="Submit" class="BidSubmitButton"/>
 </form>
 </div>
-<script type="text/javascript" src="../js/bidFormWrapper.js" th:src="@{/js/bidFormWrapper.js}"></script>
+<script th:if="${room.getRoom_type().toString() == 'UP'}" type="text/javascript" src="../js/bidFormWrapperUp.js" th:src="@{/js/bidFormWrapperUp.js}"></script>
+<script th:if="${room.getRoom_type().toString() == 'DOWN'}" type="text/javascript" src="../js/bidFormWrapperDown.js" th:src="@{/js/bidFormWrapperDown.js}"></script>
 </body>
 </html>

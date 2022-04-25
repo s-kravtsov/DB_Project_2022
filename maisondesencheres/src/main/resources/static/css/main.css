@@ -1,37 +1,100 @@
 body {
 	background-color: #f9f9f9;
-	padding: 30px;
+	padding-top: 90px;
 	font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 	color: #191919;
+	margin: 0px !important;
+}
+
+.Header {
+	width: 100%;
+	height: 60px;
+	position: fixed;
+	top: 0;
+	background-color: #3f51b5;
+	color: white !important;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: 20px;
+	z-index: 1000;
+}
+
+.HeaderLink {
+	display: flex;
+	padding: 12px 8px;
+	box-sizing: border-box;
+	font-size: 18px;
+	border-radius: 4px;
+	text-decoration-line: none;
+	margin: auto 20px;
+	color: white !important;
+}
+
+.HeaderLink:hover {
+	cursor: pointer;
+	background-color: #283593;
+	box-shadow: rgba(50, 50, 93, 0.25) 0px 15px 30px -6px inset, rgba(0, 0, 0, 0.3) 0px 9px 18px -9px inset;
+	
+}
+
+.HeaderImage {
+	height: 70%;
+	margin-left: 50px;
 }
 
 .Grid {
 	width: 100%;
-	padding: 20px;
+	box-sizing: border-box;
+	padding: 20px 4.5%;
 	display: flex;
-	justify-content: space-around;
 	flex-wrap: wrap;
 }
 
 .GridItem {
-	width: 250px;
-	height: 250px;
+	width: 19%;
 	background-color: white;
 	box-shadow: rgba(0, 0, 0, 0.15) 0px 3px 3px 0px;
 	padding: 15px;
-	margin: 20px;
 	display: flex;
 	flex-flow: column;
-	align-items: center;
+	align-items: flex-start;
 	border-radius: 6px;
 	border: 1px solid #d6d6d6;
 	color:#191919 !important;
 	text-decoration-line: none !important;
+	box-sizing: border-box;
+	margin: 20px 0.5%;
 }
 
 .GridItem:hover {
 	cursor: pointer;
+	transform:translateY(-6px);
+	box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
+}
+
+.GridItemHeader {
+	width: 100%;
+	height: 60px;
+	border-radius: 6px;
 	background-color: whitesmoke;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	font-weight: bold;
+	margin-bottom: 20px;
+}
+
+.GridItemAttr {
+	font-size: 16px;
+	margin: 10px 20px;
+	line-height: 1.15;
+}
+
+.RoomSign {
+	font-size: 18px;
+	text-align: center;
+	align-self: center;
 }
 
 .BackButton {
@@ -41,6 +104,7 @@ body {
 	border: 1px solid #d6d6d6;
 	text-decoration-line: none !important;
 	color: #191919 !important;
+
 }
 
 .BackButton:hover {
@@ -110,6 +174,7 @@ body {
 	flex-flow: column; 
 	align-items: center;
 	margin-top: 200px;
+	width: 100%;
 }
 
 .CloseButton {
@@ -128,4 +193,111 @@ body {
 .CloseButton:active {
 	background-color: #bdbdbd !important;
 	cursor: pointer;
+}
+
+.SaleDetailBox {
+	width: 60%;
+	max-width: 600px;
+	display: flex;
+	flex-flow: column;
+	align-items: flex-start;
+	margin: 0px auto;
+	background-color: white;
+	box-sizing: border-box;
+	padding: 12px;
+	border: 1px solid #d6d6d6;
+	border-radius: 10px;
+	box-shadow: rgb(38, 57, 77) 0px 20px 30px -10px;
+}
+
+.SaleDetailItem {
+	font-size: 20px;
+	margin-bottom: 20px;
+	margin-left: 3px;
+}
+
+.BidWrapper {
+	background-color: whitesmoke;
+	width: 100%;
+	display: flex;
+	flex-flow: column;
+}
+
+.BidBox {
+	width: 100%;
+	height: 60px;
+	display: flex;
+	box-sizing: border-box;
+	align-items: center;
+	border-top: 1px solid #d6d6d6;
+	font-size: 18px;
+	color: #191919 !important;
+	padding: 10px 40px;
+	justify-content: space-between;
+}
+
+.BidBox form {
+	width: 100%;
+	display: flex;
+	box-sizing: border-box;
+	align-items: center;
+	justify-content: space-between;
+
+}
+
+.BidAcceptButton {
+	padding: 6px 8px;
+	font-size: 16px;
+	background-color: #1e88e5;
+	color: white !important;
+	border-radius: 6px;
+	border: none !important;
+	max-width: 80px !important;
+}
+
+.BidAcceptButton:hover {
+	cursor: pointer;
+	background-color: #64b5f6;
+}
+
+.BaseUserItem {
+	width: 32.5%;
+	background-color: white;
+	border: 1px solid #d6d6d6;
+	border-radius: 6px;
+	display: flex;
+	flex-flow: column;
+	align-items: center;
+	margin: 0px auto;
+}
+
+.SalePost {
+	justify-self: center !important;
+	margin: 0px auto;
+	min-width: 650px !important;
+}
+
+.SalePost form {
+	width: 100%;
+	display: flex;
+	flex-flow: column;
+	align-items: center;
+	box-sizing: border-box;
+	padding: 45px;
+	font-size: 20px !important;
+}
+
+.SalePost form label{
+	margin-bottom: 17px;
+}
+
+.SalePost form input{
+	margin-bottom: 28px;
+	width: 50%;
+	height: 30px;
+}
+
+.SalePost form select{
+	margin-bottom: 28px;
+	width: 30%;
 }

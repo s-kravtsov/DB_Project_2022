@@ -36,51 +36,113 @@ public class Sale {
 	@Id
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator = "id_Sequence_sale")
 	private Long id;
-	@OneToOne
+	@OneToOne(cascade = {CascadeType.MERGE})
 	private Lot lot;
 	private Long start_price;
-	@Enumerated(EnumType.STRING)
-	private SaleType sale_type;
 	private Boolean multiple_offer;
 	private Boolean limited;
-	private LocalDateTime start_tstamp;
-	private LocalDateTime end_tstamp;
+	private LocalDateTime start_tstamp; 
+	private LocalDateTime end_tstamp; 
 	private Boolean revocable;
+	private Boolean closed;
+	private LocalDateTime last_refresh;
 	
 	@OneToMany(cascade = { CascadeType.ALL })
 	private Collection<Bid> bids;
 	
 	@Autowired
-	public Sale(Lot lot, Long start_price, SaleType sale_type, Boolean multiple_offer, Boolean limited, LocalDateTime start_tstamp, LocalDateTime end_tstamp, Boolean revocable) {
+	public Sale(Lot lot, Long start_price, Boolean multiple_offer, Boolean limited, LocalDateTime start_tstamp, LocalDateTime end_tstamp, Boolean revocable, Boolean closed) {
 		this.lot = lot;
 		this.start_price = start_price;
-		this.sale_type = sale_type;
 		this.multiple_offer = multiple_offer;
 		this.limited = limited;
 		this.start_tstamp = start_tstamp;
 		this.end_tstamp = end_tstamp;
 		this.revocable = revocable;
+		this.closed = closed;
+		this.last_refresh = LocalDateTime.now();
+	}
+	
+	@Autowired
+	public Sale(Lot lot, Long start_price, Boolean multiple_offer, Boolean limited, LocalDateTime start_tstamp, Boolean revocable, Boolean closed) {
+		this.lot = lot;
+		this.start_price = start_price;
+		this.multiple_offer = multiple_offer;
+		this.limited = limited;
+		this.start_tstamp = start_tstamp;
+		this.revocable = revocable;
+		this.closed = closed;
+		this.last_refresh = LocalDateTime.now();
 	}
 	
 	public void addBid(Bid bid) {
 		bids.add(bid);
 	}
 	
-	public Bid getBestBid() {
-		Bid best_bid;
-		if(bids.size() > 0) {
-			best_bid = bids.iterator().next();
-		} else {
-			best_bid = new Bid((BaseUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal(), false, start_price, LocalDateTime.now(), this);
-		}
-		
+	public void acceptBid(Bid bid_to_accept) {
+		/*
 		for (Bid bid : bids) {
-			if(bid.getAmount() > best_bid.getAmount()) {
-				best_bid = bid;
+			if(bid.getId() == bid_to_accept.getId()) {
+				bid.setAccepted(true);
 			}
 		}
+		*/
+		bid_to_accept.setAccepted(true);
+		lot.getProduct().setStock(lot.getProduct().getStock() - lot.getQuantity_to_sell());
+	}
+	
+	public Bid getBestBid() {
+		Bid best_bid = null;
+		if(bids.size() > 0) {
+			best_bid = bids.iterator().next();
+			for (Bid bid : bids) {
+				if(bid.getAmount() > best_bid.getAmount()) {
+					best_bid = bid;
+				}
+			}
+		} 
+		/*
+		else {
+			best_bid = new Bid((BaseUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal(), false, start_price, LocalDateTime.now(), this, this.getLot().getProduct().getStock());
+		}
+		*/
+		
 		return best_bid;
 	}
 	
+	public void close() {
+		end_tstamp = LocalDateTime.now();
+		closed = true;
+	}
+	
+	public void refresh(boolean is_type_down) {
+		
+		boolean open = !closed;
+		boolean bids_exist = this.getBestBid() != null;
+		boolean benefitial = bids_exist && this.getBestBid().getAmount() >= lot.getProduct().getBenefice_price();
+		boolean revocable_check = benefitial || !revocable;
+		boolean ten_since_bid = bids_exist && this.getBestBid().getTstamp().plusMinutes(10).isBefore(LocalDateTime.now());
+		boolean ten_since_start = start_tstamp.plusMinutes(10).isBefore(LocalDateTime.now());
+		boolean one_since_refresh = last_refresh != null && last_refresh.plusMinutes(1).isBefore(LocalDateTime.now());
+		
+		boolean accept_down = bids_exist && is_type_down;
+		boolean accept_up = bids_exist && ten_since_bid && revocable_check;
+		boolean to_close = accept_down || accept_up || ten_since_start;
+		
+		
+		if(accept_down || accept_up) {
+			this.acceptBid(this.getBestBid());
+		}
+		
+		if(to_close) {
+			this.close();
+		}
+		
+		if(open && is_type_down && one_since_refresh) {
+			this.setStart_price((long)(start_price * 0.99));
+		}
+		
+		last_refresh = LocalDateTime.now();
 
+	}
 }

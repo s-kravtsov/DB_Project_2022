@@ -23,6 +23,7 @@ public class Category {
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator = "id_Sequence_Category")
 	private Long id;
 	private String category_name;
+	private String category_description;
 	
 	 
 }

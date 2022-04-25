@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8"/>
+<title>Maison des enchères</title>
+<link rel="stylesheet" type="text/css" media="all" href="../css/main.css" th:href="@{/css/main.css}" />
+<link rel="icon" href="../media/icon.png" th:href="@{/media/icon.png}" />
+</head>
+<body>
+<div class="Header">
+	<div style="display: flex; height: 100%; align-items: center;">
+		<img class="HeaderImage" src="../media/hicon.png" th:src="@{/media/hicon.png}" />
+		<a href="/" class="HeaderLink">Baie-électronique</a>
+	</div>
+	<div style="display: flex; height: 100%; align-items: center;">
+		<a href="/sale/new" class="HeaderLink">Créer une vente</a>
+		<a href="/profile" class="HeaderLink">Espace personnel</a>
+		<a href="/logout" class="HeaderLink">Se déconnecter</a>
+	</div>
+</div>
+<div class="Grid">
+<a href="javascript:history.back()" class="BackButton">Retour</a>
+</div>
+<div class="Grid">
+<div class="BaseUserItem SalePost">
+<form action="/postSale" method="post">
+<label for="product_name">Nom de votre produit : </label>
+<input type="text" name="product_name" />
+<label for="benefice_price">À partir de quel prix vous faites des benefices ? :</label>
+<input type="number" name="benefice_price" />
+<label for="benefice_price">Avec quel prix voulez-vous commencez les enchères :</label>
+<input type="number" name="start_price" />
+<label for="stock">Combien d'unités voulez vous poster ? :</label>
+<input type="number" name="stock" />
+<label for="limited">La vente est-elle limitée dans le temps ? :</label>
+<select name="limited">
+<option value="1">Oui</option>
+<option value="0">Non</option>
+</select>
+<label for="revocable">La vente est-elle revocable ? :</label>
+<select name="revocable">
+<option value="1">Oui</option>
+<option value="0">Non</option>
+</select>
+<label for="multiple_offer">Peut-on encherir plusieurs fois ? :</label>
+<select name="multiple_offer">
+<option value="1">Oui</option>
+<option value="0">Non</option>
+</select>
+<label for="end_tstamp">Si oui, quelle est la date limite ? (YYYY-MM-DD-HH-MM) :</label>
+<input type="text" name="end_tstamp" />
+<label for="cagory">Sélectionnez la catégorie :</label>
+<select name="category_id">
+<option th:each="category : ${categories}" th:attr="value=${category.getId}" th:text="${category.getCategory_name}"></option>
+</select>
+<input type="submit" value="Submit" class="BidAcceptButton"/>
+</form>
+</div>
+</div>
+</body>
+</html>

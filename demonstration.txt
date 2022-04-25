@@ -1,0 +1,45 @@
+1. Créer une vente standard (Montante, non révocable, sans limite, enchérir plusieurs fois) :
+	1. Créer une vente.
+	2. L'afficher dans la salle.
+	3. L'afficher dans l'espace perso.
+
+2. Enchérir sur une vente standard :
+	1. Placer une enchère valide.
+	2. Placer une enchère non valide (quantité, montant).
+	3. Afficher la vente mise à jour.
+	4. Afficher l'enchère dans l'espace perso.
+	5. Afficher l'enchère dans l'espace perso du propriètaire.
+
+3. Cloturer une vente standard :
+	1. Attendre 10 min depuis la dernière enchère. 
+	2. Vérifier qu'il y a une date de fin.
+	3. Vérifier que l'enchère est acceptée. 
+
+4. Créer une vente descendante :
+	1. Créer une vente.
+	2. La placer dans une chambre du type DOWN
+
+5. Baisser le prix de la vente descendante :
+	1. Atteindre 10 min. 
+
+6. Enchèrir et cloturer une vente descendante :
+	1. Placer une enchère.
+	2. Vérifier que le bid est accepté.
+	3. Vérifier que la vente est fermée.  
+
+7. Crèer une vente revocable :
+	1. Créer une vente. 
+
+8. Enchérir sur une vente revocable :
+	1. Déposer une enchère inferieure au prix de revient.
+	2. Atteindre 10 min.
+	3. Vérifier que la vente est cloturée.
+	4. Vérifier que l'enchère n'est pas acceptée. 
+
+9. Créer une vente avec une seule enchère possible
+	1. Créer la vente.
+	2. Afficher la vente et une annocée 1 seul offre.
+
+10. Enchérir sur la vente plusieurs fois :
+	1. Le même utilisateur.
+	2. Un autre utilisateur.  

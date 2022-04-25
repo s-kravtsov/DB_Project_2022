@@ -1,6 +1,6 @@
-package com.rie.maisondesencheres.sale;
+package com.rie.maisondesencheres.product;
 
-import java.util.Collection;
+import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -9,9 +9,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Repository
 @Transactional(readOnly = true)
-public interface SaleRepository extends JpaRepository<Sale, Long> {
+public interface ProductRepository extends JpaRepository<Product, Long> {
 	
-	@Query(value = "select u.* from Sale u", nativeQuery = true)
-	public Collection<Sale> fetchAll();
-
+	@Query(value = "SELECT e.* FROM Product e", nativeQuery = true)
+	public List<Product> fetchAll();
 }

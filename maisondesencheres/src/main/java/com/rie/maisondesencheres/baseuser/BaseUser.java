@@ -38,8 +38,9 @@ public class BaseUser implements UserDetails {
 	private BaseUserRole baseuser_role;
 	private Boolean locked;
 	private Boolean enabled;
+	private String adresse;
 	
-	public BaseUser(String first_name, String last_name, String email, String password, BaseUserRole baseuser_role) {
+	public BaseUser(String first_name, String last_name, String email, String password, BaseUserRole baseuser_role, String adresse) {
 		this.first_name = first_name;
 		this.last_name = last_name;
 		this.email = email;
@@ -47,6 +48,7 @@ public class BaseUser implements UserDetails {
 		this.baseuser_role = baseuser_role;
 		this.locked = false;
 		this.enabled = false;
+		this.adresse = adresse;
 	}
 
 	@Override

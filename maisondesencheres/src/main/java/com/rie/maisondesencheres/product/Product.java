@@ -9,6 +9,7 @@ import javax.persistence.SequenceGenerator;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.rie.maisondesencheres.baseuser.BaseUser;
 import com.rie.maisondesencheres.room.Category;
 
 import lombok.EqualsAndHashCode;
@@ -28,15 +29,22 @@ public class Product {
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator = "id_Sequence_product")
 	private Long id;
 	private String product_name;
-	private Long product_cost;
+	private Long benefice_price;
 	@ManyToOne
 	private Category category;
 	
+	private Long stock;
+	
+	@ManyToOne
+	private BaseUser base_user;
+	
 	@Autowired
-	public Product(String product_name, Long product_cost, Category category) {
+	public Product(String product_name, Long benefice_price, Category category, Long stock, BaseUser base_user) {
 		this.product_name = product_name;
-		this.product_cost = product_cost;
+		this.benefice_price = benefice_price;
 		this.category = category;
+		this.stock = stock;
+		this.base_user = base_user;
 	}
 	
 }
