@@ -81,15 +81,13 @@ public class Sale {
 	}
 	
 	public void acceptBid(Bid bid_to_accept) {
-		/*
+		
 		for (Bid bid : bids) {
 			if(bid.getId() == bid_to_accept.getId()) {
 				bid.setAccepted(true);
 			}
 		}
-		*/
-		bid_to_accept.setAccepted(true);
-		lot.getProduct().setStock(lot.getProduct().getStock() - lot.getQuantity_to_sell());
+
 	}
 	
 	public Bid getBestBid() {
@@ -128,10 +126,20 @@ public class Sale {
 		
 		boolean accept_down = bids_exist && is_type_down;
 		boolean accept_up = bids_exist && ten_since_bid && revocable_check;
-		boolean to_close = (accept_down || accept_up || (!(accept_down || accept_up) && ten_since_start)) && !closed;
+		System.out.println("\n\n\n\n\n");
+		System.out.println("bids_exist = " + bids_exist);
+		System.out.println("ten_since_bid = " + bids_exist);
+		System.out.println("revocable_check = " + bids_exist);
+		System.out.println("accept_up = " + accept_up);
+		System.out.println("\n\n\n\n\n");
+		boolean to_close = (!(accept_down || accept_up) && ((bids_exist && ten_since_bid) || (!bids_exist && ten_since_start))) && open;
+		System.out.println("\n\n\n\n\n");
+		System.out.println("bids_exist = " + to_close);
+
+
+		System.out.println("\n\n\n\n\n");
 		
-		
-		if(!closed && (accept_down || accept_up)) {
+		if(open && (accept_down || accept_up)) {
 			this.acceptBid(this.getBestBid());
 			this.close();
 		}
