@@ -1,6 +1,7 @@
 package com.rie.maisondesencheres.sale;
 
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -127,11 +128,12 @@ public class Sale {
 		
 		boolean accept_down = bids_exist && is_type_down;
 		boolean accept_up = bids_exist && ten_since_bid && revocable_check;
-		boolean to_close = accept_down || accept_up || ten_since_start;
+		boolean to_close = (accept_down || accept_up || (!(accept_down || accept_up) && ten_since_start)) && !closed;
 		
 		
-		if(accept_down || accept_up) {
+		if(!closed && (accept_down || accept_up)) {
 			this.acceptBid(this.getBestBid());
+			this.close();
 		}
 		
 		if(to_close) {
@@ -144,5 +146,15 @@ public class Sale {
 		
 		last_refresh = LocalDateTime.now();
 
+	}
+	
+	public Long getMinLeft() {
+		if(closed) {
+			return (long) 0;
+		} else if (this.getBestBid() != null) {
+			return ChronoUnit.MINUTES.between(LocalDateTime.now(), this.getBestBid().getTstamp().plusMinutes(10));
+		} 
+		return ChronoUnit.MINUTES.between(LocalDateTime.now(), start_tstamp.plusMinutes(10));
+		
 	}
 }

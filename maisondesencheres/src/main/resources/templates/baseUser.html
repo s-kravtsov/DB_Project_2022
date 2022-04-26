@@ -33,14 +33,19 @@
 <span th:text="${bid.getAccepted()} ? 'Accepté' : 'Non accepté'"></span>
 </div>
 </div>
+<div class="BaseUserItem">
+<div th:each="product : ${base_user_products}" class="BidBox">
+<span th:text="${product.getStock()} + ' ' + ${product.getProduct_name()}"></span>
+</div>
+</div>
 </div>
 <div class="Grid">
 	<a th:each="sale : ${base_user_sales}" th:attr="salecode=${sale.getId()}" class="GridItem" th:href="@{/saleDetail(sale_code=${sale.getId()})}">
 		<div class="GridItemHeader"><span th:text="${sale.getLot().showLot()}"></span></div>
 		<span class="GridItemAttr" th:text="'Début de vente : ' + ${#temporals.format(sale.getStart_tstamp(), 'dd/MM/yyyy HH:mm')}"></span>
 		<span class="GridItemAttr" th:text="'Prix : ' + ${sale.getStart_price().toString()}"></span>
-		<span class="GridItemAttr" th:text="'Meilleure offre : ' + ${sale.getBestBid()?.getAmount()}"></span>
-		<span class="GridItemAttr" th:text="'Fin de vente : ' + ${#temporals.format(sale.getEnd_tstamp(), 'dd/MM/yyyy HH:mm')}"></span>
+			<span class="GridItemAttr" ><span>Meilleure offre : </span><span th:text="${sale.getBestBid()?.getAmount() == null} ? 'Aucune' : ${sale.getBestBid()?.getAmount()}"></span></span>
+		<span class="GridItemAttr" ><span>Fin de vente : </span><span th:text="${sale.getEnd_tstamp() == null} ? 'dans ' + ${sale.getMinLeft()} + 'min' : ${#temporals.format(sale.getEnd_tstamp(), 'dd/MM/yyyy HH:mm')}"></span></span>
 	</a >
 </div>
 </body>

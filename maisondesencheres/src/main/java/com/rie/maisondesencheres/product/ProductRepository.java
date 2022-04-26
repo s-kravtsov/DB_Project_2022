@@ -7,10 +7,15 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.rie.maisondesencheres.sale.Bid;
+
 @Repository
 @Transactional(readOnly = true)
 public interface ProductRepository extends JpaRepository<Product, Long> {
 	
 	@Query(value = "SELECT e.* FROM Product e", nativeQuery = true)
 	public List<Product> fetchAll();
+	
+	@Query(value = "select u.* from Product u where u.base_user_id = :#{#base_user_id}", nativeQuery = true)
+	public List<Product> findByBase_user_id(Long base_user_id);
 }

@@ -1,5 +1,6 @@
 package com.rie.maisondesencheres.baseuser;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 import javax.servlet.http.HttpServletRequest;
@@ -10,6 +11,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import com.rie.maisondesencheres.product.Product;
+import com.rie.maisondesencheres.product.ProductService;
 import com.rie.maisondesencheres.room.Room;
 import com.rie.maisondesencheres.room.RoomService;
 import com.rie.maisondesencheres.sale.Bid;
@@ -27,6 +30,7 @@ public class BaseUserController {
 	BidService bid_service;
 	SaleService sale_service;
 	RoomService room_service;
+	ProductService product_service;
 	
 	@GetMapping("/profile")
 	public String profileView(Model model) {
@@ -40,6 +44,14 @@ public class BaseUserController {
 		model.addAttribute("base_user_bids", base_user_bids);
 		Collection<Sale> base_user_sales = sale_service.findByBase_user(base_user.getId());
 		model.addAttribute("base_user_sales", base_user_sales);
+		Collection<Product> base_user_all_products = product_service.findByBase_user_id(base_user);
+		ArrayList<Product> base_user_products = new ArrayList<Product>();
+		for(Product product : base_user_all_products) {
+			if(product.getStock() > 0) {
+				base_user_products.add(product);
+			}
+		}
+		model.addAttribute("base_user_products", base_user_products);
 		return "baseUser";
 	}
 	
@@ -53,4 +65,6 @@ public class BaseUserController {
 	   
 		return "global";
 	}
+	
+	
 }

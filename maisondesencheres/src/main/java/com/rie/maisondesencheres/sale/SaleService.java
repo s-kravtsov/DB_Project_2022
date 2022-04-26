@@ -37,30 +37,30 @@ public class SaleService {
 		
 		BaseUser base_user = (BaseUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		
-		
+		System.out.println("\n\n\n\n\n");
 		boolean closed = sale.getClosed();
-
+		System.out.println("closed = " + closed);
 		boolean self_bid = sale.getLot().getProduct().getBase_user().getId() == base_user.getId();
-		
+		System.out.println("self_bid = " + self_bid);
 		boolean lower_then_initial = sale.getStart_price() > bid.getAmount() && !is_type_down;
-		
+		System.out.println("lower_then_initial = " + lower_then_initial);
 		boolean lower_then_best = sale.getBestBid() != null && sale.getBestBid().getAmount() > bid.getAmount();
-		
+		System.out.println("lower_then_best = " + lower_then_best);
 		boolean invalid_quantity = bid.getQuantity() > sale.getLot().getQuantity_to_sell() || bid.getQuantity() <= 0;
-		
+		System.out.println("invalid_quantity = " + invalid_quantity);
 		boolean invalid_amount = bid.getAmount() <= 0;
+		System.out.println("invalid_amount = " + invalid_amount);
 		
-		
-		boolean multiple_offer_violation = sale.getMultiple_offer();
-		if (!multiple_offer_violation) {
+		boolean multiple_offer_violation = false;
+		if (!sale.getMultiple_offer()) {
 			for(Bid sale_bid : sale.getBids()) {
 				if(sale_bid.getBase_user().getId() == bid.getBase_user().getId()) {
 					multiple_offer_violation = true;
 				}
 			}
 		}
-		
-		
+		System.out.println("multiple_offer_violation = " + multiple_offer_violation);
+		System.out.println("\n\n\n\n\n");
 		
 		
 		if (closed || self_bid || lower_then_initial || lower_then_best || multiple_offer_violation || invalid_quantity || invalid_amount) {
