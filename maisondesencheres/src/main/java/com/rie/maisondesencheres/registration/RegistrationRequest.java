@@ -6,6 +6,10 @@ import lombok.Getter;
 import lombok.ToString;
 
 
+/*
+ * La classe representant la requete pour inscrire un utilisateur.
+ */
+
 @AllArgsConstructor
 @EqualsAndHashCode
 @ToString

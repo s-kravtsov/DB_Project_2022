@@ -14,6 +14,10 @@ import com.rie.maisondesencheres.registration.token.ConfirmationTokenService;
 
 import lombok.AllArgsConstructor;
 
+/*
+ * La classe service. Contient un repertoire comme attribut et est utilisée par les controlleurs pour evoquer les
+ * methodés qui interrogent la base de données. 
+ */
 @Service
 @AllArgsConstructor
 public class BaseUserService implements UserDetailsService {
@@ -46,7 +50,7 @@ public class BaseUserService implements UserDetailsService {
 		
 		confirmation_token_service.saveConfirmationToken(confirmation_token);
 		
-		/* Send token by email */ 
+	
 		
 		return token;
 	}

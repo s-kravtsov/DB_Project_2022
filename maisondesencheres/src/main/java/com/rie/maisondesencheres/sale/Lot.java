@@ -17,6 +17,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+/*
+ * Entité de la base de données : Lot.
+ */
 @Getter
 @Setter
 @EqualsAndHashCode

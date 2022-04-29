@@ -13,6 +13,10 @@ import com.rie.maisondesencheres.room.Room;
 
 import lombok.AllArgsConstructor;
 
+/*
+ * La classe service. Contient un repertoire comme attribut et est utilisée par les controlleurs pour evoquer les
+ * methodés qui interrogent la base de données. 
+ */
 @Service
 @AllArgsConstructor
 public class SaleService {

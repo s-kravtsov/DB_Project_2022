@@ -7,6 +7,10 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+
+/*
+ * Le repertoire Enchères. Est basé sur l'interface JpaRepository qui implemente les requêtes à la base de données.
+ */
 @Repository
 @Transactional(readOnly = true)
 public interface BidRepository extends JpaRepository<Bid, Long> {

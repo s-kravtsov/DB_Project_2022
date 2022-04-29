@@ -35,7 +35,7 @@ public class SaleController {
 		Long amount = Long.parseLong(request.getParameter("amount"));
 		Long quantity = Long.parseLong(request.getParameter("quantity"));
 		
-		Bid bid = new Bid(base_user, false, amount, LocalDateTime.now(), sale, quantity);
+		Bid bid = new Bid(base_user, false, amount, LocalDateTime.now().plusHours(2), sale, quantity);
 		
 		boolean is_type_down = request.getParameter("room_type") == "DOWN";
 		

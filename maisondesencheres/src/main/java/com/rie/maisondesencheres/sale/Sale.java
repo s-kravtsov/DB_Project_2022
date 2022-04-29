@@ -26,6 +26,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+/*
+ * Entité de la base de données : Vente.
+ */
 @Getter
 @Setter
 @EqualsAndHashCode
@@ -61,7 +64,7 @@ public class Sale {
 		this.end_tstamp = end_tstamp;
 		this.revocable = revocable;
 		this.closed = closed;
-		this.last_refresh = LocalDateTime.now();
+		this.last_refresh = LocalDateTime.now().plusHours(2);
 	}
 	
 	@Autowired
@@ -73,7 +76,7 @@ public class Sale {
 		this.start_tstamp = start_tstamp;
 		this.revocable = revocable;
 		this.closed = closed;
-		this.last_refresh = LocalDateTime.now();
+		this.last_refresh = LocalDateTime.now().plusHours(2);
 	}
 	
 	public void addBid(Bid bid) {
@@ -110,7 +113,7 @@ public class Sale {
 	}
 	
 	public void close() {
-		end_tstamp = LocalDateTime.now();
+		end_tstamp = LocalDateTime.now().plusHours(2);
 		closed = true;
 	}
 	
@@ -120,9 +123,9 @@ public class Sale {
 		boolean bids_exist = this.getBestBid() != null;
 		boolean benefitial = bids_exist && this.getBestBid().getAmount() >= lot.getProduct().getBenefice_price();
 		boolean revocable_check = benefitial || !revocable;
-		boolean ten_since_bid = bids_exist && this.getBestBid().getTstamp().plusMinutes(10).isBefore(LocalDateTime.now());
+		boolean ten_since_bid = bids_exist && this.getBestBid().getTstamp().plusMinutes(10).isBefore(LocalDateTime.now().plusHours(2));
 		boolean ten_since_start = start_tstamp.plusMinutes(10).isBefore(LocalDateTime.now());
-		boolean one_since_refresh = last_refresh != null && last_refresh.plusMinutes(1).isBefore(LocalDateTime.now());
+		boolean one_since_refresh = last_refresh != null && last_refresh.plusMinutes(1).isBefore(LocalDateTime.now().plusHours(2));
 		
 		boolean accept_down = bids_exist && is_type_down;
 		boolean accept_up = bids_exist && ten_since_bid && revocable_check;
@@ -160,9 +163,9 @@ public class Sale {
 		if(closed) {
 			return (long) 0;
 		} else if (this.getBestBid() != null) {
-			return ChronoUnit.MINUTES.between(LocalDateTime.now(), this.getBestBid().getTstamp().plusMinutes(10));
+			return ChronoUnit.MINUTES.between(LocalDateTime.now().plusHours(2), this.getBestBid().getTstamp().plusMinutes(10));
 		} 
-		return ChronoUnit.MINUTES.between(LocalDateTime.now(), start_tstamp.plusMinutes(10));
+		return ChronoUnit.MINUTES.between(LocalDateTime.now().plusHours(2), start_tstamp.plusMinutes(10));
 		
 	}
 }

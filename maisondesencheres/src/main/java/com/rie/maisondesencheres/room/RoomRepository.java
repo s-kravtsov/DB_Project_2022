@@ -11,6 +11,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.rie.maisondesencheres.baseuser.BaseUser;
 
+/*
+ * Le repertoire Salle. Est basé sur l'interface JpaRepository qui implemente les requêtes à la base de données.
+ */
 @Repository
 @Transactional(readOnly = true)
 public interface RoomRepository extends JpaRepository<Room, Long> {

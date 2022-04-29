@@ -19,6 +19,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+/*
+ * La classe representant le client. 
+ */
 @Getter
 @Setter
 @EqualsAndHashCode

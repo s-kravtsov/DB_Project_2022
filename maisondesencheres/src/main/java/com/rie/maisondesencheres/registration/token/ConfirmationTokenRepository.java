@@ -9,6 +9,9 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+/*
+ * Le repertoire Token. Est basé sur l'interface JpaRepository qui implemente les requêtes à la base de données.
+ */
 @Repository
 public interface ConfirmationTokenRepository extends JpaRepository<ConfirmationToken, Long>{
 	Optional<ConfirmationToken> findByToken(String token);

@@ -32,6 +32,7 @@ public class BaseUserController {
 	RoomService room_service;
 	ProductService product_service;
 	
+	/* Espace personnel du client */
 	@GetMapping("/profile")
 	public String profileView(Model model) {
 		Collection<Room> rooms = room_service.fetchAll();

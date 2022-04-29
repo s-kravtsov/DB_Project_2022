@@ -8,6 +8,9 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+/*
+ * Le repertoire client. Est basé sur l'interface JpaRepository qui implemente les requêtes à la base de données.
+ */
 @Repository
 @Transactional(readOnly = true)
 public interface BaseUserRepository extends JpaRepository<BaseUser, Long> {

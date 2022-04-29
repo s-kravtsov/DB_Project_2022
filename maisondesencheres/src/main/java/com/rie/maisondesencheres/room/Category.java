@@ -12,6 +12,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+/*
+ * Entité de la base de données : Catégorie.
+ */
+
 @Getter
 @Setter
 @EqualsAndHashCode

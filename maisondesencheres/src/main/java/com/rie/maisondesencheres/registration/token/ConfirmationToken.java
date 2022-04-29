@@ -17,6 +17,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+/*
+ * Le token qu'il faut valider pour activer son profil. Par valider on entend cliquer sur le lien retourné par 
+ * la methode s'inscription register() dans RegistrationService.
+ */
 @Getter
 @Setter
 @NoArgsConstructor

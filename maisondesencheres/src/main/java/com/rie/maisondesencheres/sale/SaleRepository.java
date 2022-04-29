@@ -1,5 +1,8 @@
 package com.rie.maisondesencheres.sale;
 
+/*
+ * Le repertoire Ventes. Est basé sur l'interface JpaRepository qui implemente les requêtes à la base de données.
+ */
 import java.util.Collection;
 
 import org.springframework.data.jpa.repository.JpaRepository;

@@ -9,6 +9,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.rie.maisondesencheres.sale.Bid;
 
+
+/*
+ * Le repertoire Produit. Est basé sur l'interface JpaRepository qui implemente les requêtes à la base de données.
+ */
 @Repository
 @Transactional(readOnly = true)
 public interface ProductRepository extends JpaRepository<Product, Long> {

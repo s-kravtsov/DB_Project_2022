@@ -78,7 +78,7 @@ public class RoomController {
 		Lot lot = new Lot(product, stock);
 		
 		
-		Sale sale = new Sale(lot, start_price, multiple_offer, limited, LocalDateTime.now(), end_tstamp, revocable, false);
+		Sale sale = new Sale(lot, start_price, multiple_offer, limited, LocalDateTime.now().plusHours(2), end_tstamp, revocable, false);
 
 		room.addSale(sale);
 		room_service.saveRoom(room);

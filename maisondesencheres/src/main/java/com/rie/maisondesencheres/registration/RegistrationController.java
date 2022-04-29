@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import lombok.AllArgsConstructor;
 
+/* Le controlleur pour inscrire un utilisateur */
 @RestController
 @RequestMapping(path = "api/v1/registration")
 @AllArgsConstructor
